@@ -17,47 +17,47 @@
 
 1. **Quality Control for Illumina Reads**:
     ```bash
-    ./slurm_submit.sh qc_rnaseq -A <account_name>
+    ./slurm_submit.sh qc_rnaseq [-A <account_name>]
     ```
 
 2. **Filtering and Trimming Illumina Reads**:
     ```bash
-    ./slurm_submit.sh preprocessing_rnaseq -A <account_name>
+    ./slurm_submit.sh preprocessing_rnaseq [-A <account_name>]
     ```
 
 3. **Processing PacBio Reads**:
     ```bash
-    ./slurm_submit.sh preprocessing_pacbio -A <account_name>
+    ./slurm_submit.sh preprocessing_pacbio [-A <account_name>]
     ```
 
 4. **Removing Contaminants**:
     ```bash
-    ./slurm_submit.sh remove_contaminants -A <account_name>
+    ./slurm_submit.sh remove_contaminants [-A <account_name>]
     ```
 
 5. **Error Correction**:
     ```bash
-    ./slurm_submit.sh error_correction -A <account_name>
+    ./slurm_submit.sh error_correction [-A <account_name>]
     ```
 
 6. **Clustering PacBio Reads**:
     ```bash
-    ./slurm_submit.sh classification -A <account_name>
+    ./slurm_submit.sh classification [-A <account_name>]
     ```
 
 7. **Annotating PacBio Reads**:
     ```bash
-    ./slurm_submit.sh annotation -A <account_name>
+    ./slurm_submit.sh annotation [-A <account_name>]
     ```
 
 8. **Quality Assessment**:
     ```bash
-    ./slurm_submit.sh quality_assessment -A <account_name>
+    ./slurm_submit.sh quality_assessment [-A <account_name>]
     ```
 
 9. **Running All Steps**:
     ```bash
-    ./slurm_submit.sh all -A <account_name>
+    ./slurm_submit.sh all -A [-A <account_name>]
     ```
 
 ### Test Data
