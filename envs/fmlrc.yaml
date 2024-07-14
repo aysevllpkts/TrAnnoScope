@@ -1,0 +1,8 @@
+channels:
+  - bioconda
+  - conda-forge
+  - r
+  - defaults
+dependencies:
+  - fmlrc=1.0.0
+  - ropebwt2

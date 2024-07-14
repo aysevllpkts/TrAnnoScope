@@ -1,0 +1,16 @@
+--- 
+# slurm_config.yaml - cluster configuration for SLURM
+
+__default__:
+    partition: short  # short/long
+    time: "12:00:00"  # time limit for each job in minutes. max 12:00:00 for short and 7-00:00:00 for long partition
+    #cpus: 2 
+    #mem: "1G"
+    #ntasks-per-node: 14 # Request n cores be allocated per node.
+    output: "jobs/{rule}/%x_%j.o"  ## redirect slurm-JOBID.txt to your directory
+    error: "jobs/{rule}/%x_%j.e"
+    job_name: "{rule}.{jobid}"
+    account_name: MolGen
+
+
+

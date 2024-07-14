@@ -1,0 +1,7 @@
+channels:
+  - bioconda
+  - conda-forge
+  - r
+  - defaults
+dependencies:
+  - evigene=23.7.15

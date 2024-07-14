@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../snakemake_pipeline"
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,7 @@
+channels:
+  - bioconda
+  - conda-forge
+  - r
+  - defaults
+dependencies:
+  - cd-hit=4.8.1

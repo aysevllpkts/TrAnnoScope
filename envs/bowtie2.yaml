@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+  - bioconda
+  - r
+  - defaults
+dependencies:
+  - bowtie2=2.4.5
+  - samtools=1.12
+  - seqkit=2.2.0

@@ -1,0 +1,18 @@
+channels:
+  - conda-forge
+  - bioconda
+  - r
+  - defaults
+dependencies:
+  - nanoplot
+  - diamond=2.1.9
+  - busco=5.2.2
+  - python=3.8
+  - biopython
+  - numpy
+  - r-base=4.1
+  - r-biocmanager
+  - r-ggplot2
+  - r-dplyr
+  - bioconductor-biostrings
+  - bioconductor-biocgenerics

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "FLTransAnnot",
+			"path": ".."
+		},
+		{
+			"name": "snakemake_pipeline",
+			"path": "../../snakemake_pipeline"
+		}
+	],
+	"settings": {}
+}
