@@ -57,6 +57,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
   conda activate trannoscope
   ```
   3. **Install necessary packages and databases**
+  
   Precheck.py is a helper python script to load the necessary conda environments followed by the download and preparation of the relevant reference databases like FastQscreen genome DBs, BUSCO lineage DB, Taxdump files for Blobtools Trinotate DBs.
   ```bash
   positional arguments:
@@ -74,7 +75,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
       annotation          Annotation of PacBio long reads
       quality_assessment  Quality assessment of transcriptome
 
-  python precheck.py [OPTION STEP] -c config/config.yaml
+  python precheck.py [STEPS] -c config/config.yaml
   ```
 
 ## Usage
