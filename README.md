@@ -58,7 +58,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
   ```
   3. **Install necessary packages and databases**
   
-  Precheck.py is a helper python script to load the necessary conda environments followed by the download and preparation of the relevant reference databases like FastQscreen genome DBs, BUSCO lineage DB, Taxdump files for Blobtools Trinotate DBs.
+  Precheck.py is a helper python script to load the necessary conda environments followed by the download and preparation of the relevant reference databases like FastQscreen genome DBs, BUSCO lineage DB, Taxdump files for Blobtools, Trinotate DBs and registering SignalP and TmHMM2.
   ```bash
   positional arguments:
     STEPS                 Which step do you want to run
@@ -79,7 +79,40 @@ All conda dependencies can be installed via precheck.py before starting the anal
   ```
 
 ## Usage
+**Running on local computer:**
+    ```bash
+    STEP                  Which step you want to run
+      qc_rnaseq           Quality Control for Illumina short reads
+      preprocessing_rnaseq
+                          Filtering and Trimming of Illumina short reads
+      preprocessing_pacbio
+                          Processing PacBio long reads
+      remove_contaminants
+                          Contamination removal of PacBio long reads
+      error_correction    Error correction of PacBio long reads
+      classification      Clustering of PacBio long reads
+      annotation          Annotation of PacBio long reads
+      quality_assessment  Quality assessment of the transcriptome for nucleotide and protein sequences
+      all                 Run all steps  
+    
+    Usage: python run_FLAnnotTrans.py STEP -c config/config.yaml -t CORES
+    ```
+**Running on SLURM cluster**
+    ```bash
+    Arguments:
+      STEP       The step to execute. Available steps are:
+                 qc_rnaseq             - Quality Control for Illumina short reads
+                 preprocessing_rnaseq  - Filtering and Trimming of Illumina short reads
+                 preprocessing_pacbio  - Processing PacBio long reads
+                 remove_contaminants   - Contamination removal of PacBio long reads
+                 error_correction      - Error correction of PacBio long reads
+                 classification        - Clustering of PacBio long reads
+                 annotation            - Annotation of PacBio long reads
+                 quality_assessment    - Quality assessment of the transcriptome
+                 all                   - Run all the steps
 
+    Usage: bash slurm_submit.sh STEP -A <slurm account name>
+    ```
 ### Step-by-Step Guide
 
 1. **Quality Control for Illumina Reads**:
