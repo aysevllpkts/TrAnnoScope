@@ -43,10 +43,16 @@ All conda dependencies can be installed via precheck.py before starting the anal
 
 ## Installation 
 
+  1. ## Clone the repository:
   ```bash
   git clone https://github.com/aysevllpkts/TrAnnoScope.git
   ```
 
+  2. ## Create and activate default environment:
+  ```bash
+  conda env creae -n trannoscope -f TrAnnoScope.yaml
+  conda activate trannoscope
+  ```
 
 ## Usage
 
