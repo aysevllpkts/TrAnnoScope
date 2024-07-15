@@ -10,7 +10,7 @@ __default__:
     output: "jobs/{rule}/%x_%j.o"  ## redirect slurm-JOBID.txt to your directory
     error: "jobs/{rule}/%x_%j.e"
     job_name: "{rule}.{jobid}"
-    account_name: MolGen
+    account_name: #your slurm account name
 
 
 
