@@ -115,9 +115,9 @@ def main():
         "preprocessing_pacbio": ("rules/preprocessing_LR.smk", "log_processing_LR.txt", "Start Processing PacBio long reads!", "Processing PacBio long reads is done!\n Now, you have HQ FL reads."),
         "remove_contaminants": ("rules/contamination.smk", "log_remove_contaminants.txt", "Start contamination removal of PacBio long reads!", "Contamination removal is done!\n You can proceed to the clustering/classification step."),
         "error_correction": ("rules/error_correction.smk", "log_error_correction.txt", "Start error correction of PacBio long reads!", "Error correction is done!\n You can proceed to the clustering/classification step."),
-        "classification": ("rules/classification.smk", "log_clustering.txt", "Start clustering of PacBio long reads!", "Clustering is done!\n Now, you have FLTransAnnot results."),
-        "annotation": ("rules/annotation.smk", "log_annotation.txt", "Start annotation of PacBio long reads!", "Annotation is done!\n Now, you have FLTransAnnot results."),
-        "quality_assessment": ("rules/quality_assessment.smk", "log_quality_assessment.txt", "Start quality assessment for the transcriptome!", "Quality assessment is done!\n Now, you have FLTransAnnot results.")
+        "classification": ("rules/classification.smk", "log_clustering.txt", "Start clustering of PacBio long reads!", "Clustering is done!\n Now, you have TrAnnoScope results."),
+        "annotation": ("rules/annotation.smk", "log_annotation.txt", "Start annotation of PacBio long reads!", "Annotation is done!\n Now, you have TrAnnoScope results."),
+        "quality_assessment": ("rules/quality_assessment.smk", "log_quality_assessment.txt", "Start quality assessment for the transcriptome!", "Quality assessment is done!\n Now, you have TrAnnoScope results.")
     }
 
     # Execute the step
