@@ -19,28 +19,38 @@ Additionally, optional error correction and contamination-removal steps are defi
 - **Quality Assessment**: Assesses the quality of the transcriptome.
 
 ## Dependencies
-TrAnnoScope will use:
-- Snakemake 7.25.1
-- Python
-- FastQC
-- MultiQC
-- FastQScreen
-- Fastp
-- isoseq3
-- BUSCO
-- Bowtie2
-- Blast+
-- Blobtools2
-- Seqkit
-- FMLRC
-- CD-HIT-EST
-- EvidentialGene
-- DIAMOND
-- Trinotate
-- SignalP
-- TMHMM2
-- NanoPlot
-- R
+- Programs used by TrAnnoScope
+  - Snakemake 7.25.1
+  - Python
+  - FastQC
+  - MultiQC
+  - FastQScreen
+  - Fastp
+  - isoseq3
+  - BUSCO
+  - Bowtie2
+  - Blast+
+  - Blobtools2
+  - Seqkit
+  - FMLRC
+  - CD-HIT
+  - EvidentialGene
+  - DIAMOND
+  - Trinotate
+  - SQLite
+  - HMMER
+  - Eggnog-mapper 
+  - SignalP
+  - TMHMM2
+  - NanoPlot
+  - R
+- Databases used by TrAnnoScope
+  - SwissProt
+  - Pfam
+  - EGGNOG
+  - Rfam
+  - NR
+  - NT
   
 All conda dependencies can be installed via precheck.py before starting the analysis. Otherwise, they will be installed automatically by TrAnnoScope.
 
@@ -97,6 +107,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
       all                 Run all steps  
     
     Usage: python run_FLAnnotTrans.py STEP -c config/config.yaml -t CORES
+    Example: python run_FLAnnotTrans.py all -c config/config.yaml -t 2
     ```
 **Running on SLURM cluster**
 
@@ -113,54 +124,10 @@ All conda dependencies can be installed via precheck.py before starting the anal
                  quality_assessment    - Quality assessment of the transcriptome
                  all                   - Run all the steps
 
-    Usage: bash slurm_submit.sh STEP -A <slurm account name>
-    ```
-### Step-by-Step Guide
-
-1. **Quality Control for Illumina Reads**:
-    ```bash
-    ./slurm_submit.sh qc_rnaseq [-A <account_name>]
+    Usage: bash slurm_submit.sh STEP [-A <slurm account name>]
+    Example: bash slurm_submit.sh qc_rnaseq [-A <account_name>]
     ```
 
-2. **Filtering and Trimming Illumina Reads**:
-    ```bash
-    ./slurm_submit.sh preprocessing_rnaseq [-A <account_name>]
-    ```
-
-3. **Processing PacBio Reads**:
-    ```bash
-    ./slurm_submit.sh preprocessing_pacbio [-A <account_name>]
-    ```
-
-4. **Removing Contaminants**:
-    ```bash
-    ./slurm_submit.sh remove_contaminants [-A <account_name>]
-    ```
-
-5. **Error Correction**:
-    ```bash
-    ./slurm_submit.sh error_correction [-A <account_name>]
-    ```
-
-6. **Clustering PacBio Reads**:
-    ```bash
-    ./slurm_submit.sh classification [-A <account_name>]
-    ```
-
-7. **Annotating PacBio Reads**:
-    ```bash
-    ./slurm_submit.sh annotation [-A <account_name>]
-    ```
-
-8. **Quality Assessment**:
-    ```bash
-    ./slurm_submit.sh quality_assessment [-A <account_name>]
-    ```
-
-9. **Running All Steps**:
-    ```bash
-    ./slurm_submit.sh all -A [-A <account_name>]
-    ```
 
 ### Test Data
 
