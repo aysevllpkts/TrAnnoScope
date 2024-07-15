@@ -1,6 +1,11 @@
 # TrAnnoScope
 
-**TrAnnoScope** is a comprehensive workflow designed to process PacBio and Illumina reads to generate full-length transcripts and annotate them effectively.
+**TrAnnoScope** is a comprehensive workflow designed to process PacBio and Illumina reads to generate full-length transcripts and annotate them effectively. 
+
+TrAnnoScope is based on the Snakemake workflow management system. This tool offers a comprehensive suite of features designed to ensure high-quality transcriptome data processing. It performs quality control on Illumina short reads, ensuring that only the best data is used in subsequent analyses. The preprocessing step filters and trims Illumina reads while also handling PacBio long reads, preparing them for further analysis. It effectively removes any contamination from PacBio long reads, ensuring clean data. Error correction is performed by using Illumina reads to correct errors in PacBio reads, enhancing accuracy. The classification feature allows for the clustering and classification of PacBio reads, facilitating better data organization. Annotation of full-length transcripts provides detailed insights into the genetic information. Finally, the quality assessment feature evaluates the overall quality of the transcriptome, ensuring reliable results.
+
+TrAnnoScope provides an option to run all steps together to obtain annotated transcriptome from raw reads and run different steps independently. It gives the user a chance to control their own workflow. For example, If you have only PacBio reads, you can skip the contamination removal and error-correction step or if you already have a transcriptome, you can run only annotation and quality assessment steps. 
+
 
 ## Features
 - **Quality Control**: Performs QC on Illumina short reads.
@@ -62,7 +67,7 @@
 
 ### Test Data
 
-To verify the workflow, you can use the provided test data located in the `test_data/` directory.
+To verify the workflow, you can use the provided test data located in the `data/test_data/` directory.
 
 1. **Run the workflow with the test data**:
 
