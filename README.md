@@ -87,7 +87,10 @@ All conda dependencies can be installed via precheck.py before starting the anal
 
   Usage: python precheck.py [STEPS] -c config/config.yaml
   ```
-For preprocessing_rnaseq step, it will ask to download FastQScreen Genome indexes. 
+**For preprocessing_rnaseq step:** 
+
+it will ask to download FastQScreen Genome indexes. 
+
 ```bash
 python precheck.py preprocessing_rnaseq -c config/config.yaml
 ```
@@ -99,13 +102,18 @@ For MT DB, Check your organism in NCBI for MT genome
 Then create bowtie2 index for them with bowtie2-build --threads <THREADS> <INPUT> <OUTPUT>
 Add path of bowtie2-indexes to resources/fastqscreen/fastq_screen.conf
 
-For the remove_contaminants step, it will ask to download interested lineage files for BUSCO and taxdump which is used by Blobtools2.
+**For the remove_contaminants step:**
+
+it will ask to download interested lineage files for BUSCO and taxdump which is used by Blobtools2.
 
 ```bash
 python precheck.py remove_contaminants -c config/config.yaml
 ```
 
-For annotation step, it will ask to download TRINOTATE_DATA_DIR for databases and register SignalP and TmHMM2.
+**For annotation step:** 
+
+it will ask to download TRINOTATE_DATA_DIR for databases and register SignalP and TmHMM2.
+
 If you want SignalP and TmHMM2 search, first you have to install request files.
 
 Request to get signalp-6h-fast from: https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast 
@@ -118,13 +126,17 @@ The file should be stored at resources/tmhmm2
 python precheck.py annotation -c config/config.yaml
 ```
 
-For quality_assessment step, it will ask to download the interested lineage file for BUSCO, if you already performed, contamination removal, you can say "NO".
+**For quality_assessment step:** 
+
+it will ask to download the interested lineage file for BUSCO, if you already performed, contamination removal, you can say "NO".
 
 ```bash
 python precheck.py quality_assessment -c config/config.yaml
 ```
 
-If you run ALL step, it will ask about all necessary files to download
+**If you run ALL step:** 
+
+it will ask about all necessary files to download
 
 ```bash
 python precheck.py all -c config/config.yaml
