@@ -87,20 +87,32 @@ All conda dependencies can be installed via precheck.py before starting the anal
 
   Usage: python precheck.py [STEPS] -c config/config.yaml
   ```
-For preprocessing_rnaseq step, it will ask to download FastQScreen Genome indexes
-
+For preprocessing_rnaseq step, it will ask to download FastQScreen Genome indexes. 
 ```bash
 python precheck.py preprocessing_rnaseq -c config/config.yaml
 ```
 
-For remove_contaminants step, it will ask to download Bnterested lineage files for BUSCO and taxdump which is used by Blobtools2.
+Additionally, you can download SILVA LSU and SSU and also MT sequences of your organism of interest.  
+You can download SILVA DB from "https://www.arb-silva.de/no_cache/download/archive/current/Exports/SILVA_138.1_LSURef_tax_silva.fasta.gz" and 	SILVA_138.1_SSURef_tax_silva.fasta.gz (these are the current one for now)
+For MT DB, Check your organism in NCBI for MT genome
+
+Then create bowtie2 index for them with bowtie2-build --threads <THREADS> <INPUT> <OUTPUT>
+Add path of bowtie2-indexes to resources/fastqscreen/fastq_screen.conf
+
+For the remove_contaminants step, it will ask to download interested lineage files for BUSCO and taxdump which is used by Blobtools2.
 
 ```bash
 python precheck.py remove_contaminants -c config/config.yaml
 ```
 
-For annotation step, it will ask to download TRINOTATE_DATA_DIR for databases and register SignalP and TmHMM2
+For annotation step, it will ask to download TRINOTATE_DATA_DIR for databases and register SignalP and TmHMM2.
+If you want SignalP and TmHMM2 search, first you have to install request files.
 
+Request to get signalp-6h-fast from: https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast 
+The file should be stored at resources/signalp6
+
+Request tmhmm2 from: https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=tmhmm&version=2.0c&packageversion=2.0c&platform=Linux 
+The file should be stored at resources/tmhmm2
 ```bash
 python precheck.py annotation -c config/config.yaml
 ```
@@ -167,11 +179,16 @@ To verify the workflow, you can use the provided test data located in the `data/
 1. **Run the workflow with the test data**:
    
 ```bash
+# activate conda environment
+conda activate trannoscope
+
 # Prepare the necessary files
 python precheck.py all -c config/test_config.yaml
-# Run the TrAnnoScope on local computer
+
+# If you want to run the TrAnnoScope on local computer
 python run_TrAnnoScope.py all -c config/test_config.yaml
-# Run TrAnnoScope slurm cluster
+
+# If you want to run TrAnnoScope slurm cluster
 bash slurm_submit.py all [-A <slurm account name>]
 ```
 
