@@ -139,6 +139,7 @@ python precheck.py all -c config/config.yaml
     Example: python run_FLAnnotTrans.py all -c config/config.yaml -t 2
     ```
 **Running on SLURM cluster**
+
 You can configure settings in config/slurm_config.yaml.
 
     ```bash
