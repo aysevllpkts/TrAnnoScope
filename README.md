@@ -63,7 +63,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
 
   2. **Create and activate default environment:**
   ```bash
-  conda env create -n trannoscope -f TrAnnoScope.yaml
+  conda env create -f TrAnnoScope.yaml
   conda activate trannoscope
   ```
   3. **Install necessary packages and databases**
