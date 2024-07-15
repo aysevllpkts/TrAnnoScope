@@ -1,4 +1,4 @@
-# A python script for managing the pre-requisites and steps involved in running FLTransAnnot pipeline.
+# A python script for managing the pre-requisites and steps involved in running TrAnnoScope pipeline.
 
 from snakemake.utils import min_version
 import yaml
@@ -68,8 +68,8 @@ def prompt_user(question):
     return input().strip().lower()
 
 def install_requirements(log_file):
-    """Checks if the user wants to install conda requirements for FLTransAnnot. It will install all the conda requirements if the user chooses to."""
-    if prompt_user(f"Do you want to install conda requirements for FLTransAnnot? (y/n)") == 'y':
+    """Checks if the user wants to install conda requirements for TrAnnoScope. It will install all the conda requirements if the user chooses to."""
+    if prompt_user(f"Do you want to install conda requirements for TrAnnoScope? (y/n)") == 'y':
         logging.info(f"Installing package requirements...")
         create_directory_if_not_exists(os.path.dirname(log_file))
         run_command(f"nice -5 snakemake -s rules/conda_env.smk --use-conda --nolock --conda-create-envs-only --cores 1", log_file)
@@ -99,13 +99,13 @@ def download_busco_dataset():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Install requirements for FLTransAnnot pipeline")
+    parser = argparse.ArgumentParser(description="Install requirements for TrAnnoScope pipeline")
     subparsers = parser.add_subparsers(dest="step", metavar="STEPS", help="Which step do you want to run")
 
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument("-c", "--config", required=True, help="Specify the path for snakemake config file (default: configs/config.yaml)")
 
-    subparsers.add_parser("all", parents=[common_parser], help="Run full analysis in FLTransAnnot pipeline")
+    subparsers.add_parser("all", parents=[common_parser], help="Run full analysis in TrAnnoScope pipeline")
     subparsers.add_parser("qc_rnaseq", parents=[common_parser], help="Quality Control for Illumina short reads")
     subparsers.add_parser("preprocessing_rnaseq", parents=[common_parser], help="Filtering and Trimming of Illumina short reads")
     subparsers.add_parser("preprocessing_pacbio", parents=[common_parser], help="Processing PacBio long reads")
