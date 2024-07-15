@@ -18,6 +18,7 @@ A feature of TrAnnoScope is the ability to run all steps together to obtain anno
 ## Dependencies
 TrAnnoScope will use:
 - Snakemake 7.25.1
+- Python
 - FastQC
 - MultiQC
 - FastQScreen
@@ -25,7 +26,7 @@ TrAnnoScope will use:
 - isoseq3
 - BUSCO
 - Bowtie2
-- Blast
+- Blast+
 - Blobtools2
 - Seqkit
 - FMLRC
@@ -33,7 +34,19 @@ TrAnnoScope will use:
 - EvidentialGene
 - DIAMOND
 - Trinotate
+- SignalP
+- TMHMM2
 - NanoPlot
+- R
+  
+All conda dependencies can be installed via precheck.py before starting the analysis. Otherwise, they will be installed automatically by TrAnnoScope.
+
+## Installation 
+
+    ```bash
+    git clone https://github.com/aysevllpkts/TrAnnoScope.git
+    ```
+
 
 ## Usage
 
