@@ -75,11 +75,12 @@ All conda dependencies can be installed via precheck.py before starting the anal
       annotation          Annotation of PacBio long reads
       quality_assessment  Quality assessment of transcriptome
 
-  python precheck.py [STEPS] -c config/config.yaml
+  Usage: python precheck.py [STEPS] -c config/config.yaml
   ```
 
 ## Usage
 **Running on local computer:**
+
     ```bash
     STEP                  Which step you want to run
       qc_rnaseq           Quality Control for Illumina short reads
@@ -98,6 +99,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
     Usage: python run_FLAnnotTrans.py STEP -c config/config.yaml -t CORES
     ```
 **Running on SLURM cluster**
+
     ```bash
     Arguments:
       STEP       The step to execute. Available steps are:
