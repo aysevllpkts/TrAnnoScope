@@ -185,8 +185,8 @@ Configure settings in config/slurm_config.yaml.
                  quality_assessment    - Quality assessment of the transcriptome
                  all                   - Run all the steps
 
-    Usage: bash slurm_submit.sh STEP [-A <slurm account name>]
-    Example: bash slurm_submit.sh qc_rnaseq [-A <slurm account_name>]
+    Usage: sbatch slurm_submit.sh STEP [-A <slurm account name>]
+    Example: sbatch slurm_submit.sh qc_rnaseq [-A <slurm account_name>]
     ```
 
 
