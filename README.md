@@ -17,9 +17,23 @@ A feature of TrAnnoScope is the ability to run all steps together to obtain anno
 
 ## Dependencies
 TrAnnoScope will use:
-- snakemake 7.25.1
-- fastQC
+- Snakemake 7.25.1
+- FastQC
 - MultiQC
+- FastQScreen
+- Fastp
+- isoseq3
+- BUSCO
+- Bowtie2
+- Blast
+- Blobtools2
+- Seqkit
+- FMLRC
+- CD-HIT-EST
+- EvidentialGene
+- DIAMOND
+- Trinotate
+- NanoPlot
 
 ## Usage
 
