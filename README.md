@@ -87,6 +87,24 @@ All conda dependencies can be installed via precheck.py before starting the anal
 
   Usage: python precheck.py [STEPS] -c config/config.yaml
   ```
+For preprocessing_rnaseq, it will ask to download FastQScreen Genome indexes
+
+```bash
+python precheck.py preprocessing_rnaseq -c config/config.yaml
+```
+For remove_contaminants, it will ask to download Bnterested lineage files for BUSCO and taxdump which is used by Blobtools2.
+
+For annotation step, it will ask to download TRINOTATE_DATA_DIR for databases and register SignalP and TmHMM2
+
+```bash
+python precheck.py annotation -c config/config.yaml
+```
+
+For quality_assessment step, it will ask to download the interested lineage file for BUSCO, if you already performed, contamination removal, you can say "NO".
+
+```bash
+python precheck.py quality_assessment -c config/config.yaml
+```
 
 ## Usage
 **Running on local computer:**
