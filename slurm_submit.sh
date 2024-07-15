@@ -5,15 +5,15 @@
 #SBATCH -N 1
 #SBATCH -n 1 
 #SBATCH --mem=1G
-#SBATCH --account MolGen 
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=aysevilpektas@mbg.au.dk
+####SBATCH --account <account_name>
+####SBATCH --mail-type=ALL
+####SBATCH --mail-user=<your-mail-address>
 
 # Function to display help
 show_help() {
     echo "Usage: $0 STEP [-A ACCOUNT_NAME]"
     echo
-    echo "Run the FLAnnotTrans pipeline with the specified step and optionally with the account."
+    echo "Run the TrAnnoScope pipeline with the specified step and optionally with the account."
     echo
     echo "Arguments:"
     echo "  STEP       The step to execute. Available steps are:"
