@@ -12,8 +12,8 @@ Additionally, optional error correction and contamination-removal steps are defi
 ## Features
 - **Quality Control**: Performs QC on Illumina short reads.
 - **Preprocessing**: Filters and trims Illumina reads, processes PacBio long reads
-- **Contaminants Removal** Removes contamination from PacBio long reads.
-- **Error Correction**: Corrects errors in PacBio reads by Illumina reads.
+- **Contaminants Removal** Removes contamination from PacBio long reads (Blobtools2).
+- **Error Correction**: Corrects errors in PacBio reads by Illumina reads (FMLRC).
 - **Classification**: Cluster and Classify PacBio reads.
 - **Annotation**: Annotates the full-length transcripts.
 - **Quality Assessment**: Assesses the quality of the transcriptome.
@@ -59,7 +59,22 @@ All conda dependencies can be installed via precheck.py before starting the anal
   3. **Install necessary packages and databases**
   The initialization part involves the installation of the necessary bioinformatics packages followed by the download and preparation of the relevant reference databases.
   ```bash
-  python precheck.py [OPTION STEP]
+  positional arguments:
+    STEPS                 Which step do you want to run
+      all                 Run full analysis in FLTransAnnot pipeline
+      qc_rnaseq           Quality Control for Illumina short reads
+      preprocessing_rnaseq
+                          Filtering and Trimming of Illumina short reads
+      preprocessing_pacbio
+                          Processing PacBio long reads
+      remove_contaminants
+                          Contamination removal of PacBio long reads
+      error_correction    Error correction of PacBio long reads
+      classification      Clustering of PacBio long reads
+      annotation          Annotation of PacBio long reads
+      quality_assessment  Quality assessment of transcriptome
+
+  python precheck.py [OPTION STEP] -c config/config.yaml
   ```
 
 ## Usage
