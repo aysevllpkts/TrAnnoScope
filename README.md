@@ -154,7 +154,7 @@ python precheck.py all -c config/config.yaml
                  all                   - Run all the steps
 
     Usage: bash slurm_submit.sh STEP [-A <slurm account name>]
-    Example: bash slurm_submit.sh qc_rnaseq [-A <account_name>]
+    Example: bash slurm_submit.sh qc_rnaseq [-A <slurm account_name>]
     ```
 
 
