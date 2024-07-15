@@ -1,4 +1,4 @@
-# Main script to carry out the Snakemake rules of FLTransAnnot
+# Main script to carry out the Snakemake rules of TrAnnoScope
 from snakemake.utils import min_version
 import yaml
 import os
@@ -68,7 +68,7 @@ def parse_args():
     Returns:
         argparse.Namespace: Parsed arguments.
     """
-    parser = argparse.ArgumentParser(description="Running FLTransAnnot pipeline")
+    parser = argparse.ArgumentParser(description="Running TrAnnoScope pipeline")
     parser.add_argument("-l", "--loglevel", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
                         help="Set the logging level (default: INFO)")
 
