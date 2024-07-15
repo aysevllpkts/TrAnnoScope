@@ -6,6 +6,8 @@ TrAnnoScope is based on the Snakemake workflow management system. This tool offe
 
 A feature of TrAnnoScope is the ability to run all steps together to obtain annotated transcriptomes from raw reads and to run different steps independently. It provides the user with the opportunity to manage their workflow. The contamination removal and error-correction step can be skipped if you only have PacBio reads. Likewise, if you already have a transcriptome, you can run only the annotation and quality assessment steps. For this purpose, the user defines their data in the config.yaml file and run the related snakefile in the rules/ directory.
 
+![image](https://github.com/user-attachments/assets/004eb3db-12a6-4d37-a544-e3aed6ccb8d3)
+
 ## Features
 - **Quality Control**: Performs QC on Illumina short reads.
 - **Preprocessing**: Filters and trims Illumina reads, processes PacBio long reads
@@ -43,15 +45,19 @@ All conda dependencies can be installed via precheck.py before starting the anal
 
 ## Installation 
 
-  1. ## Clone the repository:
+  1. **Clone the repository:**
   ```bash
   git clone https://github.com/aysevllpkts/TrAnnoScope.git
   ```
 
-  2. ## Create and activate default environment:
+  2. **Create and activate default environment:**
   ```bash
   conda env creae -n trannoscope -f TrAnnoScope.yaml
   conda activate trannoscope
+  ```
+  3. **Install necessary packages and databases**
+  ```bash
+  python precheck.py [OPTION STEP]
   ```
 
 ## Usage
