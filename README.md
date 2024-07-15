@@ -19,7 +19,7 @@ Additionally, optional error correction and contamination-removal steps are defi
 - **Quality Assessment**: Assesses the quality of the transcriptome.
 
 ## Dependencies
-- Programs used by TrAnnoScope
+- **Programs** 
   - Snakemake 7.25.1
   - Python
   - FastQC
@@ -44,7 +44,7 @@ Additionally, optional error correction and contamination-removal steps are defi
   - TMHMM2
   - NanoPlot
   - R
-- Databases used by TrAnnoScope
+- **Databases**
   - SwissProt
   - Pfam
   - EGGNOG
@@ -133,6 +133,8 @@ python precheck.py all -c config/config.yaml
 ## Usage
 **Running on local computer:**
 
+Configure settings in config/config.yaml.
+
     ```bash
     STEP                  Which step you want to run
       qc_rnaseq           Quality Control for Illumina short reads
@@ -153,7 +155,7 @@ python precheck.py all -c config/config.yaml
     ```
 **Running on SLURM cluster**
 
-You can configure settings in config/slurm_config.yaml.
+Configure settings in config/slurm_config.yaml.
 
     ```bash
     Arguments:
