@@ -68,7 +68,10 @@ All conda dependencies can be installed via precheck.py before starting the anal
   ```
   3. **Install necessary packages and databases**
   
-  Precheck.py is a helper python script to load the necessary conda environments followed by the download and preparation of the relevant reference databases like FastQscreen genome DBs, BUSCO lineage DB, Taxdump files for Blobtools, Trinotate DBs and registering SignalP and TmHMM2.
+  The Python script  called precheck.py is designed to manage the prerequisites and steps involved in running the TrAnnoScope pipeline. It utilizes Snakemake for workflow management and integrates various bioinformatics tools and databases. The script ensures that necessary environments and resources are installed and configured, guiding users through each step of the pipeline setup and execution process. 
+
+  **NOTE:** If you want to use SignalP and TmHMM2, first you should install tar.gz file of them and store it in resources/
+  
   ```bash
   positional arguments:
     STEPS                 Which step do you want to run
