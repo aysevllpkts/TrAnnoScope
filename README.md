@@ -43,9 +43,9 @@ All conda dependencies can be installed via precheck.py before starting the anal
 
 ## Installation 
 
-    ```bash
-    git clone https://github.com/aysevllpkts/TrAnnoScope.git
-    ```
+  ```bash
+  git clone https://github.com/aysevllpkts/TrAnnoScope.git
+  ```
 
 
 ## Usage
