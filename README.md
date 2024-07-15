@@ -165,6 +165,15 @@ You can configure settings in config/slurm_config.yaml.
 To verify the workflow, you can use the provided test data located in the `data/test_data/` directory.
 
 1. **Run the workflow with the test data**:
+   
+```bash
+# Prepare the necessary files
+python precheck.py all -c config/test_config.yaml
+# Run the TrAnnoScope on local computer
+python run_TrAnnoScope.py all -c config/test_config.yaml
+# Run TrAnnoScope slurm cluster
+bash slurm_submit.py all [-A <slurm account name>]
+```
 
 
 ## License
