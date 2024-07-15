@@ -140,6 +140,7 @@ python precheck.py all -c config/config.yaml
     ```
 **Running on SLURM cluster**
 You can configure settings in config/slurm_config.yaml.
+
     ```bash
     Arguments:
       STEP       The step to execute. Available steps are:
