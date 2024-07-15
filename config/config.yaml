@@ -1,19 +1,19 @@
 # Project name
-PROJECT: "zebrafinch_test_data"
+PROJECT: ""
 
 # ============================== Sub-workflow input definition ===============================
 
 # Paths to preprocessed long reads, clean short reads, clean long reads, input for classification and annotation
-preprocessed_long_reads: ""   # Directory containing preprocessed long reads, should be <sample>.*.fq.gz - #"/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/test/error_correction/LR"  #/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/test/contamination/LR"  # should be <sample>.*.fq.gz
-clean_short_reads: ""         # Directory containing clean short reads, should be <sample>_<fr>.*.fq.gz  - #"/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/test/contamination/SR"        # should be <sample>_<fr>.*.fq.gz
-clean_long_reads: ""          # Directory containing clean long reads, should be <sample>.*.fasta        - #"/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/test/error_correction/LR"      # should be <sample>.*.fasta
-input_for_classification: ""  # Directory containing input files for classification, should be <sample>.*.fasta - #"/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/test/classification/test1" # should be <sample>.*.fasta
+preprocessed_long_reads: ""         # Directory containing preprocessed long reads, should be <sample>.*.fq.gz  
+clean_short_reads: ""               # Directory containing clean short reads, should be <sample>_<fr>.*.fq.gz  
+clean_long_reads: ""                # Directory containing clean long reads, should be <sample>.*.fasta        
+input_for_classification: ""        # Directory containing input files for classification, should be <sample>.*.fasta 
 input_for_annotation:
-  nucl: ""  # Path to nucleotide file for annotation - #"/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/test/annotation/final_transcriptome_nucl.fasta"
-  prot: ""  # Path to protein file for annotation    - #"/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/test/annotation/final_transcriptome_prot.fasta"
+  nucl: ""                          # Path to nucleotide file for annotation 
+  prot: ""                          # Path to protein file for annotation    
 input_for_quality: 
-  nucl: ""  # Path to nucleotide file for quality assessment - #"/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/test/quality_assessment/nucleotide.fasta"
-  prot: ""  # Path to protein file for quality assessment    - #"/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/test/quality_assessment/protein.fasta"
+  nucl: ""                          # Path to nucleotide file for quality assessment 
+  prot: ""                          # Path to protein file for quality assessment    
 
 # ================== Shared parameters for some or all of the sub-workflows ==================
  
@@ -87,7 +87,7 @@ busco:
   threads: 4          # Number of cores
   memory:  "4000"     # Memory in MB
   lineage: "vertebrata_odb10" # BUSCO lineage dataset, if you want auto-lineage, leave blank as "".
-  data_path: "/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/combined_test/resources/busco_downloads"
+  data_path: "resources/busco_downloads"
 
 # Bowtie2 parameters for read alignment
 bowtie2:
@@ -103,7 +103,7 @@ blastn:
   threads: 4        # Cores
   memory: "4000"    # Memory in MB
   outfmt6: "6 qseqid staxids bitscore std qcovs qcovhsp stitle" # Output format
-  database: "/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/data/annotation_databases/nt/nt_2/nt" # Path to NT database
+  database: "" # Path to NT database
   params: "-evalue 1e-25  -max_target_seqs 1 -max_hsps 1" # BLAST parameters for contamination check
 
 # BlobTools parameters for contamination assessment and removal
@@ -116,12 +116,12 @@ blobtools:
 # BlobTools filter parameters for taxa removal
 blobtools_filter:
   bestsumorder_phylum: # it will keep the taxa name below, and exclude rest. 
-    - Chordata
-    - no-hit
+    - Chordata # example
+    - no-hit    
 
 # Extra parameters for contamination removal
 MT_removal: "yes"                 # # Mitochondrial removal ("yes" or "no") keys using for removal: "mitochondrial", "mitochondrion"
-organism: "Taeniopygia guttata"   # Organism of interest, using together with MT_removal to remove mitochondrial fragments
+organism: ""                      # Organism of interest, using together with MT_removal to remove mitochondrial fragments
 rRNA_removal: "yes"               # rRNA removal ("yes" or "no") keys using for removal: "rRNA,|, rRNA"
 
 # ================== Configuration for Error Correction by Illumina Reads ==================
@@ -161,21 +161,21 @@ trinotate:
   split_size: 200                               # Number of sequences per split file
   outfmt: "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle" # Output format of homology search file, you need stitle for SPECIES PLOT
   e-value: "1e-5" # e-value threshold for homology search 
-  nr_path: "/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/data/annotation_databases/diamond/nr.dmnd" # path for dimaond index of NR database
-  nt_path: "/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/data/annotation_databases/nt/nt_2/nt" # path for NT index files 
+  nr_path: "" # path for dimaond index of NR database
+  nt_path: "" # path for NT index files 
 
 # Possible databases for annotation
 database_run:
   - swissprot_blastx
   - swissprot_blastp
   - pfam
-#  - signalp6  # make sure to register first
-#  - tmhmmv2   # make sure to register first
+  - signalp6            # make sure to register first
+  - tmhmmv2             # make sure to register first
   - eggnog_mapper
   - infernal
-  - nr_blastx
-  - nr_blastp
-  - nt
+  - nr_blastx           # Define your NR diamond index folder
+  - nr_blastp           # Define your NR diamond index folder
+  - nt                  # Define your NT DB
 
 # file format for plots
 format: "pdf" # OPTIONS: pdf or svg
