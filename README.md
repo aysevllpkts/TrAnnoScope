@@ -92,7 +92,12 @@ For preprocessing_rnaseq, it will ask to download FastQScreen Genome indexes
 ```bash
 python precheck.py preprocessing_rnaseq -c config/config.yaml
 ```
+
 For remove_contaminants, it will ask to download Bnterested lineage files for BUSCO and taxdump which is used by Blobtools2.
+
+```bash
+python precheck.py remove_contaminants -c config/config.yaml
+```
 
 For annotation step, it will ask to download TRINOTATE_DATA_DIR for databases and register SignalP and TmHMM2
 
