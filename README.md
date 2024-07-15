@@ -113,6 +113,7 @@ The file should be stored at resources/signalp6
 
 Request tmhmm2 from: https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=tmhmm&version=2.0c&packageversion=2.0c&platform=Linux 
 The file should be stored at resources/tmhmm2
+
 ```bash
 python precheck.py annotation -c config/config.yaml
 ```
