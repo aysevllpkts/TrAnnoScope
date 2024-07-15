@@ -4,8 +4,7 @@
 
 TrAnnoScope is based on the Snakemake workflow management system. This tool offers a comprehensive suite of features designed to ensure high-quality transcriptome data processing. It performs quality control on Illumina short reads, ensuring that only the best data is used in subsequent analyses. The preprocessing step filters and trims Illumina reads while also handling PacBio long reads, preparing them for further analysis. It effectively removes any contamination from PacBio long reads, ensuring clean data. Error correction is performed by using Illumina reads to correct errors in PacBio reads, enhancing accuracy. The classification feature allows for the clustering and classification of PacBio reads, facilitating better data organization. Annotation of full-length transcripts provides detailed insights into the genetic information. Finally, the quality assessment feature evaluates the overall quality of the transcriptome, ensuring reliable results.
 
-TrAnnoScope provides an option to run all steps together to obtain annotated transcriptome from raw reads and run different steps independently. It gives the user a chance to control their own workflow. For example, If you have only PacBio reads, you can skip the contamination removal and error-correction step or if you already have a transcriptome, you can run only annotation and quality assessment steps. 
-
+A feature of TrAnnoScope is the ability to run all steps together to obtain annotated transcriptomes from raw reads and to run different steps independently. It provides the user with the opportunity to manage their workflow. The contamination removal and error-correction step can be skipped if you only have PacBio reads. Likewise, if you already have a transcriptome, you can run only the annotation and quality assessment steps. For this purpose, the user defines their data in the config.yaml file and run the related snakefile in the rules/ directory.
 
 ## Features
 - **Quality Control**: Performs QC on Illumina short reads.
@@ -15,6 +14,12 @@ TrAnnoScope provides an option to run all steps together to obtain annotated tra
 - **Classification**: Cluster and Classify PacBio reads.
 - **Annotation**: Annotates the full-length transcripts.
 - **Quality Assessment**: Assesses the quality of the transcriptome.
+
+## Dependencies
+TrAnnoScope will use:
+- snakemake 7.25.1
+- fastQC
+- MultiQC
 
 ## Usage
 
