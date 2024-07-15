@@ -57,7 +57,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
   conda activate trannoscope
   ```
   3. **Install necessary packages and databases**
-  The initialization part involves the installation of the necessary bioinformatics packages followed by the download and preparation of the relevant reference databases.
+  Precheck.py is a helper python script to load the necessary conda environments followed by the download and preparation of the relevant reference databases like FastQscreen genome DBs, BUSCO lineage DB, Taxdump files for Blobtools Trinotate DBs.
   ```bash
   positional arguments:
     STEPS                 Which step do you want to run
