@@ -125,7 +125,6 @@ rule evigene:
     params:
         fasta = "merged_clean_corrected.fasta",
         minaa = config["evigene"]["min_aa"],
-        pHeterozygosity = config["evigene"]["pHeterozygosity"],
         extra = config["evigene"]["extra"],
         path = OUTDIR + "/pacbio/classification/evigene"
     threads:
@@ -138,5 +137,5 @@ rule evigene:
         """
         mkdir -p {params.path}
         cd {params.path}
-        $EVIGENEHOME/scripts/prot/tr2aacds4.pl -cdnaseq {params.fasta} -NCPU={threads} -MAXMEM={resources.mem_mb} -MINAA={params.minaa} -pHeterozygosity={params.pHeterozygosity} -logfile ../../../../{log} {params.extra} &>> ../../../../{log} 
+        $EVIGENEHOME/scripts/prot/tr2aacds4.pl -cdnaseq {params.fasta} -NCPU={threads} -MAXMEM={resources.mem_mb} -MINAA={params.minaa} -logfile ../../../../{log} {params.extra} &>> ../../../../{log} 
         """
