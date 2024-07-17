@@ -135,9 +135,7 @@ rule modify_header:
     shell:
         """ 
         for file in {input}; do
-            echo $file
             sample=$(basename $file .clustered.fasta)
-            echo $sample
             bash scripts/modify_header.sh $file {params.dir}/$sample.clustered.newheader.fasta $sample {log}
         done
         """
