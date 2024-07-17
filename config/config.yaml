@@ -149,31 +149,30 @@ evigene:
   threads: 8                        # number of cores
   memory: "8000"                    # memory in MB
   min_aa: "100"                     # minimum amino acid length
-  pHeterozygosity: "2"              # heterozygosity parameters 
-  extra: "-ablastab=blastp_table"   # additional parameters
+  extra: "-pHeterozygosity=2 -ablastab=blastp_table"   # additional parameters
 
   # ================== Configuration for Annotation ==================
 
 # Register file path for Signalp6 and Tmhmmv2
 # you can download it from https://services.healthtech.dtu.dk/
-signalp6_register: "resources/signalp6/signalp-6.0h.fast.tar.gz"   # if you follow instructions in the precheck.py, keep this path
-tmhmmv2_register: "resources/tmhmm2/tmhmm-2.0c.Linux.tar.gz" 	   # Same here!
+signalp6_register: "resources/signalp6/signalp-6.0h.fast.tar.gz"   # If you followed instructions in the precheck.py, keep this path
+tmhmmv2_register: "resources/tmhmm2/tmhmm-2.0c.Linux.tar.gz" 	     # Same here!
 
 # Trinotate parameters for transcriptome annotation
 trinotate:
-  path: "resources/Trinotate-Trinotate-v4.0.2"		# Default folder path if you used precheck.py
-  trinotate_data_dir: "resources/TRINOTATE_DATA_DIR" 	# Directory containing Trinotate data
-  split_size: 200                               	# Number of sequences per split file
-  outfmt: "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle" # Output format of homology search file, you need stitle for SPECIES PLOT
-  e-value: "1e-5" # e-value threshold for homology search 
-  nr_path: "" # path for dimaond index of NR database
-  nt_path: "" # path for NT index files 
+  path: "resources/Trinotate-Trinotate-v4.0.2"		      # Default folder path if you used precheck.py
+  trinotate_data_dir: "resources/TRINOTATE_DATA_DIR"   	# Directory containing Trinotate data
+  split_size: 200                               	      # Number of sequences per split file
+  outfmt: "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle"   # Output format of homology search file, you need stitle for SPECIES PLOT
+  e-value: "1e-5"                                       # e-value threshold for homology search 
+  nr_path: ""                                           # path for dimaond index of NR database
+  nt_path: ""                                           # path for NT index files 
 
 # Possible databases for annotation
 
 parallel_run:
   threads: 4
-  memory: "8000" # Eggnog mapper and NR blastx/blastp uses high memory with diamond!
+  memory: "8000"   # Eggnog mapper and NR blastx/blastp uses high memory with diamond!
 
 database_run:
   - swissprot_blastx
@@ -194,8 +193,8 @@ format: "pdf" # OPTIONS: pdf or svg
 
 # Summarize contigs 
 nanoplot:
-  memory: 4000 # Memory in Mb
-  threads: 4   # cores 
+  memory: 4000    # Memory in Mb
+  threads: 4      # cores 
 
 # BUSCO parameters were previously defined at contamination_removal part!
 
@@ -203,18 +202,18 @@ nanoplot:
   # for swissprot path, if you run annotation smk, leave BLANK, you already have swissprot.dmnd file in the data/TRINOTATE_DATA_DIR folder,
   # otherwise you have to define your own index file.
 swissprot:
-  fasta: ""     # Path to SwissProt fasta file, Leave blank if you run ANNOTATION.SMK previously.
-  diamond: ""   # Path to diamond index of SwissProt fasta file, Leave blank if you run ANNOTATION.SMK previously.
+  fasta: ""       # Path to SwissProt fasta file, Leave blank if you run ANNOTATION.SMK previously.
+  diamond: ""     # Path to diamond index of SwissProt fasta file, Leave blank if you run ANNOTATION.SMK previously.
 
-# if you test your transcritpome with closely related organism
+# if you test your transcriptome with closely related organism
 custom_db:
-  fasta: ""     # Path to custom fasta file 
-  diamond: ""   # Path to custom diamond index of fasta file
+  fasta: ""       # Path to custom fasta file 
+  diamond: ""     # Path to custom diamond index of fasta file
 
-# Diamond parameters for homology search - will be used in to find closely simialer sequences against database
+# Diamond parameters for homology search - will be used to find closely similar sequences against Swissprot or custom database
 diamond:
-  memory: 8000 # Memory in MB
-  threads: 8   # number of cores
+  memory: 8000    # Memory in MB
+  threads: 8      # number of cores
   outfmt: "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle qcovhsp"
   extra_parameters: "--max-target-seqs 1 --max-hsps 1 --evalue 1e-20"
 
