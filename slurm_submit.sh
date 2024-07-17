@@ -3,11 +3,11 @@
 #SBATCH --time=12:00:00
 #SBATCH --partition short
 #SBATCH -N 1
-#SBATCH -n 1 
-#SBATCH --mem=1G
-####SBATCH --account <account_name>
-####SBATCH --mail-type=ALL
-####SBATCH --mail-user=<your-mail-address>
+#SBATCH -n 2 
+#SBATCH --mem=2G
+#SBATCH --account MolGen
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=aysevilpektas@mbg.au.dk
 
 # Function to display help
 show_help() {
@@ -41,9 +41,9 @@ steps["preprocessing_rnaseq"]="rules/preprocessing_SR.smk|log_trim.txt|Starting 
 steps["preprocessing_pacbio"]="rules/preprocessing_LR.smk|log_processing_LR.txt|Starting Processing PacBio long reads!|Processing PacBio long reads is done! Now, you have HQ FL reads."
 steps["remove_contaminants"]="rules/contamination.smk|log_remove_contaminants.txt|Starting contamination removal of PacBio long reads!|Contamination removal is done! You can proceed to the clustering/classification step."
 steps["error_correction"]="rules/error_correction.smk|log_error_correction.txt|Starting error correction of PacBio long reads!|Error correction is done! You can proceed to the clustering/classification step."
-steps["classification"]="rules/classification.smk|log_clustering.txt|Starting clustering of PacBio long reads!|Clustering is done! Now, you have TrAnnoScope results."
-steps["annotation"]="rules/annotation.smk|log_annotation.txt|Starting annotation of PacBio long reads!|Annotation is done! Now, you have TrAnnoScope results."
-steps["quality_assessment"]="rules/quality_assessment.smk|log_quality_assessment.txt|Starting quality assessment for the transcriptome!|Quality assessment is done! Now, you have TrAnnoScope results."
+steps["classification"]="rules/classification.smk|log_clustering.txt|Starting clustering of PacBio long reads!|Clustering is done! Now, you have FLTransAnnot results."
+steps["annotation"]="rules/annotation.smk|log_annotation.txt|Starting annotation of PacBio long reads!|Annotation is done! Now, you have FLTransAnnot results."
+steps["quality_assessment"]="rules/quality_assessment.smk|log_quality_assessment.txt|Starting quality assessment for the transcriptome!|Quality assessment is done! Now, you have FLTransAnnot results."
 
 # Define the order of steps
 step_order=("qc_rnaseq" "preprocessing_rnaseq" "preprocessing_pacbio" "remove_contaminants" "error_correction" "classification" "annotation" "quality_assessment")
@@ -63,13 +63,14 @@ if [ "$#" -lt 1 ]; then
 fi
 
 STEP=$1
-ACCOUNT=""
+USE_ACCOUNT=false  # Default is not to use the account
+
 
 # Shift the arguments to process the optional -A flag
 shift
-while getopts "A:" opt; do
+while getopts "A" opt; do
     case $opt in
-        A) ACCOUNT=$OPTARG ;;
+        A) USE_ACCOUNT=true ;;
         *) show_help; exit 1 ;;
     esac
 done
@@ -78,7 +79,7 @@ run_step() {
     local step=$1
     IFS='|' read -r -a step_details <<< "${steps[$step]}"
     echo "${step_details[2]}"
-    if [ -n "$ACCOUNT" ]; then
+    if [ "$USE_ACCOUNT" = true ]; then
         snakemake_cmd="snakemake -s ${step_details[0]} --configfile config/config.yaml --use-conda -j 500 \
             --cluster 'sbatch -A {cluster.account_name} --time={cluster.time} -p {cluster.partition} --mem={resources.mem_mb} \
             -c {threads} -o {cluster.output} -e {cluster.error}' --cluster-config config/slurm_config.yaml \

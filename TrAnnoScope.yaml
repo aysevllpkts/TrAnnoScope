@@ -1,0 +1,10 @@
+name: trannoscope
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - busco=5.2.2
+  - fastq-screen=0.14.0
+  - snakemake-minimal=7.25.1
+ 

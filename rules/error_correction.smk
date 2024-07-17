@@ -109,9 +109,9 @@ rule bwt:
     params:
         indir = RNASEQ_DIR
     threads:
-        2   
+        config["error_correction"]["threads"]   
     resources:
-        mem_mb=2000
+        mem_mb=config["error_correction"]["memory"]
     benchmark:
         "benchmarks/pacbio/error_correction/bwt_{sample}.benchmark.txt"
     shell:
@@ -134,9 +134,9 @@ rule fmlrc:
     params:
         parameters = config["fmlrc_parameters"]
     threads:
-        2
+        config["error_correction"]["threads"] 
     resources:
-        mem_mb=2000
+        mem_mb=config["error_correction"]["memory"]
     benchmark:
         "benchmarks/pacbio/error_correction/fmlrc_{sample}.benchmark.txt"
     shell:

@@ -153,6 +153,10 @@ rule create_dataset:
         """
 # Here you go
 if config["flnc2cluster"]["cluster_type"] == "cluster2":
+    """
+    The cluster2 output contains isoforms with at least 2 FLNC reads. To include singletons, 
+    the --singletons option should be used. Additionally, with HiFi input all isoforms have a predicted accuracy ≥ 0.99.
+    """
     rule flnc2cluster2:
         input:
             dataset = OUTDIR + "/flnc/{sample}.flnc.fofn"
@@ -163,6 +167,8 @@ if config["flnc2cluster"]["cluster_type"] == "cluster2":
             "logs/pacbio/cluster2.{sample}.log"
         conda:
             "../envs/pacbio.yaml"
+        params:
+            extra = config["flnc2cluster"]["parameters"]
         threads:
             config["flnc2cluster"]["threads"]
         resources: 
@@ -170,7 +176,7 @@ if config["flnc2cluster"]["cluster_type"] == "cluster2":
         shell:  
             """ 
             echo "isoseq3 cluster2 was used for clustering." > {log} 
-            isoseq3 cluster2 --log-file {log} {input.dataset} {output.clustered} -j {threads} >> {log}
+            isoseq3 cluster2 --log-file {log} {input.dataset} {output.clustered} -j {threads} {params.extra} >> {log}
             bamtools convert -format fasta -in {output.clustered} -out {output.fasta} >> {log}
             """
 

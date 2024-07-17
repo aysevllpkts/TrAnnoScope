@@ -117,7 +117,7 @@ checkpoint copy_transcriptome:
     log: 
         "logs/transcriptome/transcriptome_copy.log"
     threads: 1
-    resources: mem_mb = 100
+    resources: mem_mb = 1000
     shell:
         """
         cp {input.transcriptome_nt} {output.copied_nt}
@@ -137,7 +137,7 @@ checkpoint modify_prot_header:
     log:
         "logs/transcriptome/modify_prot_header.log"
     threads: 1
-    resources:  mem_mb=100 
+    resources:  mem_mb=1000 
     shell: "python scripts/reformat_header.py {input} {output} &> {log}" 
 
 checkpoint create_gene_trans_map:
@@ -148,7 +148,7 @@ checkpoint create_gene_trans_map:
     log:
         "logs/transcriptome/create_gene_trans_map.log"
     threads: 1
-    resources:  mem_mb = 100
+    resources:  mem_mb = 1000
     shell:
         """
         if [ ! -f {output.gene_trans_map} ]; then
@@ -239,7 +239,7 @@ rule init_trinotate:
     threads:
         1
     resources:
-        mem_mb = 1000
+        mem_mb = 2000
     shell:
         """
         # Check if the file _init.ok exists in the directory - it is preventing to initiate the sqlite file
@@ -270,9 +270,9 @@ if "swissprot_blastx" in config["database_run"]:
         conda:
             "../envs/trinotate_v4.0.2.yaml"
         threads:
-            2
+            config["parallel_run"]["threads"]
         resources:
-            mem_mb = 2000
+            mem_mb = config["parallel_run"]["memory"]
         benchmark:
             "benchmarks/annotation/swissprot_blastx_parallel.part_{index}.benchmark.txt"
         shell:
@@ -341,9 +341,9 @@ if "swissprot_blastp" in config["database_run"]:
             outfmt = config["trinotate"]["outfmt"],
             evalue=config["trinotate"]["e-value"]
         threads:
-            2
+            config["parallel_run"]["threads"]
         resources:
-            mem_mb = 2000
+            mem_mb = config["parallel_run"]["memory"]
         shell:
             """
             diamond blastp --db {params.db} --query {input} --outfmt {params.outfmt} --out {output} --max-target-seqs 1 --threads {threads} --evalue {params.evalue} &> {log}
@@ -409,9 +409,9 @@ if "pfam" in config["database_run"]:
         params:
             db = config["trinotate"]["trinotate_data_dir"] + "/Pfam-A.hmm",
         threads:
-            2
+            config["parallel_run"]["threads"]
         resources:
-            mem_mb = 1000
+            mem_mb = config["parallel_run"]["memory"]
         shell:
             """
             hmmsearch --cpu {threads} --noali --domtblout {output} {params.db} {input} > {log}
@@ -475,8 +475,8 @@ if "signalp6" in config["database_run"]:
             "logs/annotation/signalp6_parallel_{index}.log"
         params:
             dir = OUTDIR + "/annotation/signalp6/chunks/sigP6outdir_{index}",
-        threads: 8
-        resources: mem_mb = 8000
+        threads: config["parallel_run"]["threads"]
+        resources: mem_mb = config["parallel_run"]["memory"]
         shell:
             """
             signalp6 --fastafile {input} --output_dir {params.dir} --format none --organism euk --mode fast &> {log}
@@ -534,8 +534,8 @@ if "tmhmmv2" in config["database_run"]:
             "../envs/trinotate_v4.0.2.yaml"
         log: 
             "logs/annotation/tmhmm2_parallel_{index}.log"
-        threads: 1
-        resources: mem_mb = 2000
+        threads: config["parallel_run"]["threads"]
+        resources: mem_mb=config["parallel_run"]["memory"]
         shell:
             """
             tmhmm --short {input} > {output}
@@ -596,8 +596,8 @@ if "eggnog_mapper" in config["database_run"]:
             prefix = "transcriptome_prot_modified.part_{index}"
         conda: 
             "../envs/trinotate_v4.0.2.yaml"
-        threads: 8
-        resources: mem_mb = 8000
+        threads: config["parallel_run"]["threads"]
+        resources: mem_mb=config["parallel_run"]["memory"]
         benchmark: 
             "benchmarks/annotation/eggnog_mapper_parallel_{index}.txt"
         shell:
@@ -673,8 +673,8 @@ if "infernal" in config["database_run"]:
             dir = OUTDIR + "/annotation/infernal/chunks",
             db_clanin = config["trinotate"]["trinotate_data_dir"] + "/Rfam.clanin",
             db_cm = config["trinotate"]["trinotate_data_dir"] + "/Rfam.cm",
-        threads: 2
-        resources: mem_mb = 2000
+        threads: config["parallel_run"]["threads"]
+        resources: mem_mb=config["parallel_run"]["memory"]
         shell:
             """
             mkdir -p {params.dir}
@@ -743,8 +743,8 @@ if "nr_blastx" in config["database_run"]:
             db = config["trinotate"]["nr_path"],
             outfmt = config["trinotate"]["outfmt"],
             evalue = config["trinotate"]["e-value"]
-        threads: 8
-        resources: mem_mb = 8000
+        threads: config["parallel_run"]["threads"]
+        resources: mem_mb=config["parallel_run"]["memory"]
         benchmark: 
             "benchmarks/annotation/nr_blastx_parallel_{index}.txt"
         shell:
@@ -806,8 +806,8 @@ if "nr_blastp" in config["database_run"]:
             db = config["trinotate"]["nr_path"],
             outfmt = config["trinotate"]["outfmt"],
             evalue = config["trinotate"]["e-value"]
-        threads: 8
-        resources: mem_mb = 8000
+        threads: config["parallel_run"]["threads"]
+        resources: mem_mb=config["parallel_run"]["memory"]
         benchmark: 
             "benchmarks/annotation/nr_blastp_parallel_{index}.txt"
         shell:
@@ -868,9 +868,9 @@ if "nt" in config["database_run"]:
             outfmt = config["trinotate"]["outfmt"],
             evalue = config["trinotate"]["e-value"] 
         threads: 
-            2
+            config["parallel_run"]["threads"]
         resources: 
-            mem_mb = 4000
+            mem_mb = config["parallel_run"]["memory"]
         benchmark: 
             "benchmarks/annotation/nt_blastn_parallel_{index}.txt"
         shell:
@@ -958,7 +958,7 @@ rule get_summary:
         fmt = config["format"], # plot file extention
         outdir = OUTDIR + "/annotation"
     threads:    1
-    resources:  mem_mb = 1000
+    resources:  mem_mb = 2000
     shell:
         """
         # Summary table
