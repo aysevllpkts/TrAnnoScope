@@ -75,7 +75,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
   ```bash
   positional arguments:
     STEPS                 Which step do you want to run
-      all                 Run full analysis in FLTransAnnot pipeline
+      all                 Run full analysis in TrAnnoScope pipeline
       qc_rnaseq           Quality Control for Illumina short reads
       preprocessing_rnaseq
                           Filtering and Trimming of Illumina short reads
