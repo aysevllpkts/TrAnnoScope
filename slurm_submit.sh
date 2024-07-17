@@ -41,9 +41,9 @@ steps["preprocessing_rnaseq"]="rules/preprocessing_SR.smk|log_trim.txt|Starting 
 steps["preprocessing_pacbio"]="rules/preprocessing_LR.smk|log_processing_LR.txt|Starting Processing PacBio long reads!|Processing PacBio long reads is done! Now, you have HQ FL reads."
 steps["remove_contaminants"]="rules/contamination.smk|log_remove_contaminants.txt|Starting contamination removal of PacBio long reads!|Contamination removal is done! You can proceed to the clustering/classification step."
 steps["error_correction"]="rules/error_correction.smk|log_error_correction.txt|Starting error correction of PacBio long reads!|Error correction is done! You can proceed to the clustering/classification step."
-steps["classification"]="rules/classification.smk|log_clustering.txt|Starting clustering of PacBio long reads!|Clustering is done! Now, you have FLTransAnnot results."
-steps["annotation"]="rules/annotation.smk|log_annotation.txt|Starting annotation of PacBio long reads!|Annotation is done! Now, you have FLTransAnnot results."
-steps["quality_assessment"]="rules/quality_assessment.smk|log_quality_assessment.txt|Starting quality assessment for the transcriptome!|Quality assessment is done! Now, you have FLTransAnnot results."
+steps["classification"]="rules/classification.smk|log_clustering.txt|Starting clustering of PacBio long reads!|Clustering is done! Now, you have TrAnnoScope results."
+steps["annotation"]="rules/annotation.smk|log_annotation.txt|Starting annotation of PacBio long reads!|Annotation is done! Now, you have TrAnnoScope results."
+steps["quality_assessment"]="rules/quality_assessment.smk|log_quality_assessment.txt|Starting quality assessment for the transcriptome!|Quality assessment is done! Now, you have TrAnnoScope results."
 
 # Define the order of steps
 step_order=("qc_rnaseq" "preprocessing_rnaseq" "preprocessing_pacbio" "remove_contaminants" "error_correction" "classification" "annotation" "quality_assessment")
