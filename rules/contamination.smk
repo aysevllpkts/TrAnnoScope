@@ -123,18 +123,22 @@ rule modify_header:
         fasta_files
     output:
         #touch(OUTDIR + "/clustered/newheader/header_modified.done")
-        OUTDIR + "/clustered/newheader/{sample}.clustered.newheader.fasta"
+        expand(OUTDIR + "/clustered/newheader/{sample}.clustered.newheader.fasta", sample=LR_SAMPLES)
     log:
-        "logs/pacbio/modify_header_{sample}.log"
+        "logs/pacbio/modify_header.log"
+    params:
+        dir = OUTDIR + "/clustered/newheader"
     threads:
         1
     resources:
         mem_mb = 100
     shell:
         """ 
-        for file in {input}
-        do
-            bash scripts/modify_header.sh $file {output} {wildcards.sample} {log}
+        for file in {input}; do
+            echo $file
+            sample=$(basename $file .clustered.fasta)
+            echo $sample
+            bash scripts/modify_header.sh $file {params.dir}/$sample.clustered.newheader.fasta $sample {log}
         done
         """
 
