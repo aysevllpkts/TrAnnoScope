@@ -18,8 +18,8 @@ input_for_quality:
 # ================== Shared parameters for some or all of the sub-workflows ==================
  
 # Paths to sequencing data
-RNASEQ_INDIR: "" # Directory containing Illumina RNA-Seq data, format: <sample>_<fr>.fq.gz (e.g., brain1_1.fq.gz and brain1_2.fq.gz)
-ISOSEQ_INDIR: "" # Directory containing PacBio Iso-Seq data
+RNASEQ_INDIR: ""   # Directory containing Illumina RNA-Seq data, format: {sample}_{frr}.fq.gz (e.g., brain1_1.fq.gz and brain1_2.fq.gz)
+ISOSEQ_INDIR: ""   # Directory containing PacBio Iso-Seq data, format: {sample}_{movie}.subreads.bam (e.g., brain1_movie1.subreads.bam)
 
 # Sequencing type for Illumina Reads
 END: "PE"  # "PE" (Paired-End) or "SE" (Single-End)
