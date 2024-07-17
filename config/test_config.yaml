@@ -173,9 +173,9 @@ database_run:
   - tmhmmv2             # make sure to register first
   - eggnog_mapper
   - infernal
-  - nr_blastx           # Define your NR diamond index folder
-  - nr_blastp           # Define your NR diamond index folder
-  - nt                  # Define your NT DB
+  #- nr_blastx           # Define your NR diamond index folder
+  #- nr_blastp           # Define your NR diamond index folder
+  #- nt                  # Define your NT DB
 
 # file format for plots
 format: "pdf" # OPTIONS: pdf or svg
