@@ -1,5 +1,5 @@
 # Project name
-PROJECT: ""
+PROJECT: "test_data"
 
 # ============================== Sub-workflow input definition ===============================
 
@@ -18,8 +18,8 @@ input_for_quality:
 # ================== Shared parameters for some or all of the sub-workflows ==================
  
 # Paths to sequencing data
-RNASEQ_INDIR: "" # Directory containing Illumina RNA-Seq data, format: <sample>_<fr>.fq.gz (e.g., brain1_1.fq.gz and brain1_2.fq.gz)
-ISOSEQ_INDIR: "" # Directory containing PacBio Iso-Seq data
+RNASEQ_INDIR: "data/test_data/illumina" # Directory containing Illumina RNA-Seq data, format: <sample>_<fr>.fq.gz (e.g., brain1_1.fq.gz and brain1_2.fq.gz)
+ISOSEQ_INDIR: "data/test_data/pacbio" # Directory containing PacBio Iso-Seq data
 
 # Sequencing type for Illumina Reads
 END: "PE"  # "PE" (Paired-End) or "SE" (Single-End)
@@ -29,22 +29,22 @@ END: "PE"  # "PE" (Paired-End) or "SE" (Single-End)
 
 # FastQC parameters
 fastqc:
-  threads: 4    # Cores
-  memory: 4000  # Memory in MB
+  threads: 1    # Cores
+  memory: 1000  # Memory in MB
 
 # ================== Configuration for filtering and trimming of SR ==================
 
 # FastQ Screen parameters for screening libraries against different organisms
 fastqscreen:  
-  threads: 8    # Cores
-  memory: 8000  # Memory in MB
+  threads: 2    # Cores
+  memory: 4000  # Memory in MB
   # config file for fastqscreen - install genomes withb precheck before
   conf: "resources/fastqscreen/fastq_screen.conf"  # Configuration file for FastQ Screen. You can install it with precheck.py script. It will be in the resources/fastqscreen directory. 
 
 # Fastp parameters for trimming sequences
 fastp:
-  threads: 8      # Cores
-  memory: 8000    # Memory in MB
+  threads: 2      # Cores
+  memory: 4000    # Memory in MB
   adapter: "resources/short_reads_adapters.fa"  # Adapter file 
   parameters: "-r --cut_window_size 4 --cut_mean_quality 15 --correction -l 20" # Trimming parameters, -l is minimun allowed length
 
@@ -57,26 +57,25 @@ primers: "resources/pacbio_adapter.fasta"
 subreads2ccs:
   min_passes: 3   # Minimum number of passess each read
   min_rq: 0.99    # Minimum quality -> choose 0.99 for HQ reads
-  threads: 8      # Number of cores  
+  threads: 4      # Number of cores  
   memory: "8000"  # Memory in MB
 
 # Parameters for converting CCS to full-length sequences
 ccs2fl: 
-  threads: 8      # Number of cores
-  parameters: "--peek-guess" # it chooses one between the primer pairs. 
+  threads: 4      # Number of cores
+  parameters: "--peek-guess" # optional, it chooses one between the primer pairs. 
   memory: "8000" # Memory in MB
 
 # Parameters for converting full-length sequences to full-length non-chimeric (FLNC) sequences
 fl2flnc:
-  threads: 8      # cores
-  memory: "8000"  # Memory in MB
+  threads: 4      # cores
+  memory: "4000"  # Memory in MB
 
 # Parameters for clustering FLNC sequences
 flnc2cluster:
-  threads: 8      # Cores
+  threads: 4      # Cores
   cluster_type: "cluster2" # Options: "cluster" (strict) or "cluster2" (faster)
-  memory: "8000"  # Memory in MB
-  parameters: "--singletons" # for cluster2, see Annotatio.smk for more details 
+  memory: "4000"  # Memory in MB
 
 #isoseq3 cluster ${FLNC}/${sample}/${sample}.flnc.fofn ${sample}/${sample}.clustered.bam -j 8 --use-qvs
 #isoseq3 cluster2 ${FLNC}/${sample}/${sample}.flnc.fofn ${sample}/${sample}.clustered2.bam -j 8 
@@ -85,22 +84,22 @@ flnc2cluster:
 
 # BUSCO parameters for contamination assessment, ALSO FOR QUALITY ASSESSMENT
 busco:
-  threads: 8          # Number of cores
-  memory:  "8000"     # Memory in MB
+  threads: 4          # Number of cores
+  memory:  "4000"     # Memory in MB
   lineage: "vertebrata_odb10" # BUSCO lineage dataset, if you want auto-lineage, leave blank as "".
-  data_path: "resources/busco_downloads" # if you used precheck.py and download busco dataset, you do not have to change this.
+  data_path: "resources/busco_downloads"
 
 # Bowtie2 parameters for read alignment
 bowtie2:
-  indexing_threads: 4
-  indexing_memory: "8000"                 # Memory in MB 
-  mapping_threads: 8
-  mapping_memory: "8000"                 # Memory in MB
+  indexing_threads: 1
+  indexing_memory: "2000"                 # Memory in MB 
+  mapping_threads: 2
+  mapping_memory: "2000"                 # Memory in MB
   mapping_parameters: "--no-unal -k 20"  # Mapping parameters
 
 # BLASTn parameters for sequence alignment
 blastn: 
-  split_size: 5000   # Number of sequences per split file
+  split_size: 200   # Number of sequences per split file
   threads: 4        # Cores
   memory: "4000"    # Memory in MB
   outfmt6: "6 qseqid staxids bitscore std qcovs qcovhsp stitle" # Output format
@@ -109,27 +108,23 @@ blastn:
 
 # BlobTools parameters for contamination assessment and removal
 blobtools:
-  taxdir: "resources/taxdump" # Path to taxdump directory. If you download taxdump folder with precheck.py, you can keep this path.
-  threads: 8         	      # Number of cores
-  memory: "12000"             # Memory in MB
-  plot_extension: "png"       # Output plot format (png or svg)
+  taxdir: "resources/taxdump" # Path to taxdump directory
+  threads: 4         # Number of cores
+  memory: "8000"        # Memory in MB
+  plot_extension: "png" # Output plot format (png or svg)
 
 # BlobTools filter parameters for taxa removal
 blobtools_filter:
   bestsumorder_phylum: # it will keep the taxa name below, and exclude rest. 
-    - Chordata # example, choose the phylum, you want to keep. 
+    - Chordata # example
     - no-hit    
 
 # Extra parameters for contamination removal
 MT_removal: "yes"                 # # Mitochondrial removal ("yes" or "no") keys using for removal: "mitochondrial", "mitochondrion"
-organism: ""  			  # Organism of interest, using together with MT_removal to remove mitochondrial fragments
+organism: ""                      # Organism of interest, using together with MT_removal to remove mitochondrial fragments
 rRNA_removal: "yes"               # rRNA removal ("yes" or "no") keys using for removal: "rRNA,|, rRNA"
 
 # ================== Configuration for Error Correction by Illumina Reads ==================
-
-error_correction:
-  threads: 8
-  memory: "12000" # for large files, bwt needs high memory
 
 # FMLRC parameters for error correction
 fmlrc_parameters: ""
@@ -139,15 +134,15 @@ fmlrc_parameters: ""
 # CD-HIT-EST is an optional rule! - for sequence clustering 
 cd-hit-est:
   proceed: "yes"  ## Do you want to proceed cd-hit-est before evidential gene! ("yes" or "no")
-  threads: 8
-  memory: 8000
+  threads: 2
+  memory: 4000
   similarity: "0.95"
   extra_parameters: "-G 0 -aL 0.00 -aS 0.99 -AS 30"
 
 # EvidentialGene parameters for transcript classification 
 evigene:
-  threads: 8                        # number of cores
-  memory: "8000"                    # memory in MB
+  threads: 4                        # number of cores
+  memory: "4000"                    # memory in MB
   min_aa: "100"                     # minimum amino acid length
   pHeterozygosity: "2"              # heterozygosity parameters 
   extra: "-ablastab=blastp_table"   # additional parameters
@@ -156,25 +151,20 @@ evigene:
 
 # Register file path for Signalp6 and Tmhmmv2
 # you can download it from https://services.healthtech.dtu.dk/
-signalp6_register: "resources/signalp6/signalp-6.0h.fast.tar.gz"   # if you follow instructions in the precheck.py, keep this path
-tmhmmv2_register: "resources/tmhmm2/tmhmm-2.0c.Linux.tar.gz" 	   # Same here!
+signalp6_register: "resources/signalp6/signalp-6.0h.fast.tar.gz"
+tmhmmv2_register: "resources/tmhmm2/tmhmm-2.0c.Linux.tar.gz" 
 
 # Trinotate parameters for transcriptome annotation
 trinotate:
-  path: "resources/Trinotate-Trinotate-v4.0.2"		# Default folder path if you used precheck.py
-  trinotate_data_dir: "resources/TRINOTATE_DATA_DIR" 	# Directory containing Trinotate data
-  split_size: 200                               	# Number of sequences per split file
+  path: "resources/Trinotate-Trinotate-v4.0.2"
+  trinotate_data_dir: "resources/TRINOTATE_DATA_DIR" # Directory containing Trinotate data
+  split_size: 200                               # Number of sequences per split file
   outfmt: "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle" # Output format of homology search file, you need stitle for SPECIES PLOT
   e-value: "1e-5" # e-value threshold for homology search 
   nr_path: "" # path for dimaond index of NR database
   nt_path: "" # path for NT index files 
 
 # Possible databases for annotation
-
-parallel_run:
-  threads: 4
-  memory: "8000" # Eggnog mapper and NR blastx/blastp uses high memory with diamond!
-
 database_run:
   - swissprot_blastx
   - swissprot_blastp
@@ -194,8 +184,8 @@ format: "pdf" # OPTIONS: pdf or svg
 
 # Summarize contigs 
 nanoplot:
-  memory: 4000 # Memory in Mb
-  threads: 4   # cores 
+  memory: 2000 # Memory in MB
+  threads: 2   # cores 
 
 # BUSCO parameters were previously defined at contamination_removal part!
 
@@ -214,7 +204,7 @@ custom_db:
 # Diamond parameters for homology search - will be used in to find closely simialer sequences against database
 diamond:
   memory: 8000 # Memory in MB
-  threads: 8   # number of cores
+  threads: 4   # number of cores
   outfmt: "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle qcovhsp"
   extra_parameters: "--max-target-seqs 1 --max-hsps 1 --evalue 1e-20"
 
