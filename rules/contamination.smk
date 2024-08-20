@@ -481,7 +481,6 @@ rule remove_extra:
         if [[ "{params.mt_removal}" == "yes" && "{params.rRNA_removal}" == "yes" ]]; then
             bash scripts/MT_removal.sh {input.blastn} {{params.organism}} {input.filtered_fasta} {params.qseqid_dir}/{wildcards.sample}.mt_nt.qseqid &>> {log}
             bash scripts/rRNA_removal.sh {input.blastn} {input.filtered_fasta} {params.qseqid_dir}/{wildcards.sample}.rRNA_nt.qseqid &>> {log}
-            #cat {params.qseqid_dir}/{wildcards.sample}.mt_nt.qseqid {params.qseqid_dir}/{wildcards.sample}.rRNA_nt.qseqid | grep -E "^$" -v | sort | uniq > {params.qseqid_dir}/{wildcards.sample}.mt_rRNA_nt.qseqid
             echo "Running seqkit" &>> {log}
             seqkit grep -n -v -f {params.qseqid_dir}/{wildcards.sample}.mt_nt.qseqid {input.filtered_fasta} | seqkit grep -n -v -f {params.qseqid_dir}/{wildcards.sample}.rRNA_nt.qseqid -o {output} &>> {log}
         elif [[ "{params.mt_removal}" == "yes" && "{params.rRNA_removal}" == "no" ]]; then

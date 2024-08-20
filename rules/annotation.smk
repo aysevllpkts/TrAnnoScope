@@ -87,7 +87,7 @@ if "nt" in config["database_run"]:
 
 #print(conditional_outputs)
 
-localrules: all, copy_transcriptome, modify_prot_header, create_gene_trans_map, copy_trinotate_sqlite, split_pep, split_nucl, get_summary
+localrules: all, copy_transcriptome, modify_prot_header, create_gene_trans_map, copy_trinotate_sqlite, split_pep, split_nucl, get_summary, species_plot
 
 rule all:
     input:
@@ -95,6 +95,7 @@ rule all:
         #OUTDIR + "/transcriptome/transcriptome_prot.fasta",
         OUTDIR + "/transcriptome/transcriptome_prot_modified.fasta",
         OUTDIR + "/transcriptome/gene_trans_map.txt",
+        OUTDIR + "/annotation/" + config["PROJECT"] + "_myTrinotate.sqlite",
         OUTDIR + "/annotation/trinotate_init.done",
         #expand(OUTDIR + "/annotation/signalp6/chunks/sigP6outdir_{index}", index = indexes),
         #conditional_outputs,
@@ -299,17 +300,17 @@ if "swissprot_blastx" in config["database_run"]:
             cat {input} > {output} 2>{log}
             """
 
-    rule load_swissprot_blastp:
+    rule load_swissprot_blastx:
         """
         Load OUTFMT6 to SQLITE DB.
         """
         input:
             check = OUTDIR + "/annotation/trinotate_init.done",
-            hits = OUTDIR + "/annotation/swissprot_blastp/transcriptome_swissprot_blastp.outfmt6"
+            hits = OUTDIR + "/annotation/swissprot_blastx/transcriptome_swissprot_blastx.outfmt6"
         output:
-            touch(OUTDIR + "/annotation/swissprot_blastp/swissprot_blastp_trinotate_load.done")
+            touch(OUTDIR + "/annotation/swissprot_blastx/swissprot_blastx_trinotate_load.done")
         log:
-            "logs/annotation/swissprot_blastp_load.log"
+            "logs/annotation/swissprot_blastx_load.log"
         params:
             path = config["trinotate"]["path"],
             sqlite = OUTDIR + "/annotation/" + config["PROJECT"] + "_myTrinotate.sqlite",
@@ -320,7 +321,7 @@ if "swissprot_blastx" in config["database_run"]:
         resources:  mem_mb=2000
         shell:
             """
-            {params.path}/Trinotate --db {params.sqlite} --LOAD_swissprot_blastp {input.hits} 2> {log}
+            {params.path}/Trinotate --db {params.sqlite} --LOAD_swissprot_blastx {input.hits} 2> {log}
             """
 
 if "swissprot_blastp" in config["database_run"]:
@@ -368,17 +369,17 @@ if "swissprot_blastp" in config["database_run"]:
             cat {input} > {output} 2>{log}
             """
 
-    rule load_swissprot_blastx:
+    rule load_swissprot_blastp:
         """
         Load OUTFMT6 to SQLITE DB.
         """
         input:
             check = OUTDIR + "/annotation/trinotate_init.done",
-            hits = OUTDIR + "/annotation/swissprot_blastx/transcriptome_swissprot_blastx.outfmt6"
+            hits = OUTDIR + "/annotation/swissprot_blastp/transcriptome_swissprot_blastp.outfmt6"
         output:
-            touch(OUTDIR + "/annotation/swissprot_blastx/swissprot_blastx_trinotate_load.done")
+            touch(OUTDIR + "/annotation/swissprot_blastp/swissprot_blastp_trinotate_load.done")
         log:
-            "logs/annotation/swissprot_blastx_load.log"
+            "logs/annotation/swissprot_blastp_load.log"
         params:
             path = config["trinotate"]["path"],
             sqlite = OUTDIR + "/annotation/" + config["PROJECT"] + "_myTrinotate.sqlite",
@@ -390,7 +391,7 @@ if "swissprot_blastp" in config["database_run"]:
             mem_mb=2000
         shell:
             """
-            {params.path}/Trinotate --db {params.sqlite} --LOAD_swissprot_blastx {input.hits} 2> {log}
+            {params.path}/Trinotate --db {params.sqlite} --LOAD_swissprot_blastp {input.hits} 2> {log}
             """
 
 if "pfam" in config["database_run"]:
@@ -650,7 +651,7 @@ if "eggnog_mapper" in config["database_run"]:
         threads:
             2
         resources:
-            mem_mb=1000
+            mem_mb=2000
         shell:
             """
             {params.path}/Trinotate --db {params.sqlite} --LOAD_EggnogMapper {input.hits} &>{log}
@@ -784,7 +785,7 @@ if "nr_blastx" in config["database_run"]:
             sqlite = OUTDIR + "/annotation/" + config["PROJECT"] + "_myTrinotate.sqlite",
             db_name = "NR"
         threads: 1
-        resources: mem_mb = 1000
+        resources: mem_mb = 2000
         shell:
             """
             {params.path}/Trinotate --db {params.sqlite} --LOAD_custom_blast {input.hits} --blast_type blastx --custom_db_name {params.db_name} &> {log}
@@ -847,7 +848,7 @@ if "nr_blastp" in config["database_run"]:
             sqlite = OUTDIR + "/annotation/" + config["PROJECT"] + "_myTrinotate.sqlite",
             db_name = "NR"
         threads: 1
-        resources: mem_mb = 1000
+        resources: mem_mb = 2000
         shell:
             """
             {params.path}/Trinotate --db {params.sqlite} --LOAD_custom_blast {input.hits} --blast_type blastp --custom_db_name {params.db_name} &> {log}
@@ -910,7 +911,7 @@ if "nt" in config["database_run"]:
             sqlite = OUTDIR + "/annotation/" + config["PROJECT"] + "_myTrinotate.sqlite",
             db_name = "NT"
         threads: 1
-        resources:  mem_mb=1000
+        resources:  mem_mb=2000
         shell:
             """
             {params.path}/Trinotate --db {params.sqlite} --LOAD_custom_blast {input.hits} --blast_type blastx --custom_db_name {params.db_name} &> {log}
@@ -937,15 +938,13 @@ rule get_report:
         
 rule get_summary:
     input:
-        annotation = OUTDIR + "/annotation/" + config["PROJECT"] + "_trinotate_report.xls",
-        outfmt = OUTDIR + "/annotation/nr_blastx/transcriptome_blastx_nr_diamond.outfmt6",
+        annotation = OUTDIR + "/annotation/" + config["PROJECT"] + "_trinotate_report.xls"
     output:
         summary_table = OUTDIR + "/annotation/" + config["PROJECT"] + "_trinotate_report.summary",
         go_slims = OUTDIR + "/annotation/" + config["PROJECT"] + "_trinotate_report_trans.goslims",
         GO_plots = expand(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_{category}_GOSlims.{ext}", category = ["ALL", "Cellular_Component", "Molecular_Function", "Biological_Process"], ext = config["format"]),
         KEGG_plots = expand(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_KEGG_{name}dist." + config["format"], name = ["", "slim_"]),
-        COG_plot = OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_COG_dist." + config["format"], 
-        species_plot = OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_top10_species_dist_NR_blastx." + config["format"]
+        COG_plot = OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_COG_dist." + config["format"]
     log:
         "logs/trinotate_report.log"
     conda:
@@ -973,6 +972,27 @@ rule get_summary:
         Rscript scripts/kegg_plot.R {input.annotation} {params.prefix} {params.kegg_file} {params.fmt} {params.outdir}/plots/ 2&>> {log}
         # COG
         Rscript scripts/cog_plot.R {input.annotation} {params.cog_file} {params.prefix}  {params.fmt} {params.outdir}/plots/ 2&>> {log}
-        # Species - NR BLASTX
-        Rscript scripts/species_plot.R {input.outfmt} {params.prefix} {params.fmt} {params.outdir}/plots/ 2&>>{log}
         """    
+
+
+if "nr_blastx" in config["database_run"]:
+    rule species_plot:
+        input:
+            outfmt = OUTDIR + "/annotation/nr_blastx/transcriptome_blastx_nr_diamond.outfmt6"
+        output:
+            species_plot = OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_top10_species_dist_NR_blastx." + config["format"]
+        log:
+            "logs/species_plot.log"
+        conda:
+            "../envs/trinotate_v4.0.2.yaml"
+        params:
+            prefix = config["PROJECT"], 
+            fmt = config["format"], # plot file extention
+            outdir = OUTDIR + "/annotation"
+        threads:    1
+        resources:  mem_mb = 2000
+        shell:
+            """
+            # Species - NR BLASTX
+            Rscript scripts/species_plot.R {input.outfmt} {params.prefix} {params.fmt} {params.outdir}/plots/ 2&>>{log}
+            """  

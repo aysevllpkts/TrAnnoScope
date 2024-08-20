@@ -137,5 +137,5 @@ rule evigene:
         """
         mkdir -p {params.path}
         cd {params.path}
-        $EVIGENEHOME/scripts/prot/tr2aacds4.pl -cdnaseq {params.fasta} -NCPU={threads} -MAXMEM={resources.mem_mb} -MINAA={params.minaa} -logfile ../../../../{log} {params.extra} &>> ../../../../{log} 
+        $EVIGENEHOME/scripts/prot/tr2aacds4.pl -cdnaseq {params.fasta} -NCPU={threads} -MAXMEM={resources.mem_mb} -MINAA={params.minaa} -logfile ../../../../{log} {params.extra} &>> ../../../../{log}         
         """

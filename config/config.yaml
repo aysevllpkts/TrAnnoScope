@@ -100,7 +100,7 @@ bowtie2:
 
 # BLASTn parameters for sequence alignment
 blastn: 
-  split_size: 1000   # Number of sequences per split file
+  split_size: 2000   # Number of sequences per split file
   threads: 4        # Cores
   memory: "4000"    # Memory in MB
   outfmt6: "6 qseqid staxids bitscore std qcovs qcovhsp stitle" # Output format
