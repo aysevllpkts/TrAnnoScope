@@ -66,7 +66,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
   conda env create -f TrAnnoScope.yaml
   conda activate trannoscope
   ```
-  3. **Modify config file**
+  3. **Modify config file**\
   Before proceeding the installation, modify the config/config.yaml based on your needs.
 
   5. **Install necessary packages and databases**
