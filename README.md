@@ -1,17 +1,17 @@
 # TrAnnoScope
 
-**TrAnnoScope** is a comprehensive workflow designed to process PacBio and Illumina reads to generate full-length transcripts and annotate them effectively. 
+**TrAnnoScope** is a comprehensive workflow designed to process long and short reads to generate full-length transcripts and annotate them effectively. 
 
 TrAnnoScope is based on the Snakemake workflow management system. This tool offers a comprehensive suite of features designed to generate the full-length transcriptome from multiple tissues using PacBio and Illumina reads, as well as for functional annotation analysis of the transcriptome. The workflow consists of eight sub-workflows and each part can also be run independently for specific analyses. The initialization part involves the installation of the necessary bioinformatics packages followed by the download and preparation of the relevant reference databases. In the preprocessing step, several quality control tools are used to evaluate and improve the quality of raw Illumina reads. For PacBio reads, isoseq3 is used to obtain high-quality reads.
-Additionally, optional error correction and contamination-removal steps are defined. FMLRC can be used to increase the quality of long reads obtained by clean Illumina reads, while Blobtools remove contamination from long reads using coverage information obtained from clean Illumina reads and BUSCO results. During the assembly and reduction step, CDHIT-Est eliminates redundancy between tissue samples, and EvidentialGene removes duplicate reads and obtains protein-coding reads. A quality evaluation of an assembly is conducted based on the completeness, the length distribution, and the ratio of nearly full-length transcripts against databases of well-known biological sequences such as UniProt or closely related species. Trinotate software is used to perform functional annotation of transcripts against various databases as part of the annotation process. Trinotate offers sequence databases, including Pfam, SwissProt, SignalP, TMHMM, EggNog, and Infernal. Additionally, homology searches against the NR and NT databases were added to the workflow as an option. But the users should prepare the necessary files for themselves. As a whole, the workflow includes quality control, reduction of redundancy, obtaining protein-coding transcripts, evaluating assembly, and annotating full-length transcripts and protein sequences.
+Additionally, optional error correction and contamination-removal steps are defined. FMLRC can be used to increase the quality of long reads obtained by clean Illumina reads, while Blobtools remove contamination from long reads using coverage information obtained from clean Illumina reads and BUSCO results. During the assembly and reduction step, CD-HIT-Est eliminates redundancy between tissue samples, and EvidentialGene removes duplicate reads and obtains protein-coding reads. A quality evaluation of an assembly is conducted based on the completeness, the length distribution, and the ratio of nearly full-length transcripts against databases of well-known biological sequences such as UniProt or closely related species. Trinotate software is used to perform functional annotation of transcripts against various databases as part of the annotation process. Trinotate offers sequence databases, including Pfam, SwissProt, SignalP, TMHMM, EggNog, and Infernal. Additionally, homology searches against the NR and NT databases were added to the workflow as an option. But the users should prepare the necessary files for themselves. As a whole, the workflow includes quality control, reduction of redundancy, obtaining protein-coding transcripts, evaluating assembly, and annotating full-length transcripts and protein sequences.
 
 ## Workflow
-<img width="409" alt="image" src="https://github.com/user-attachments/assets/555fa330-bced-4589-9f56-b7b8dd3d60ee">
+![pipeline_workflow](https://github.com/user-attachments/assets/864fc503-426a-4054-84ef-367367cae2e4)
 
 
 ## Features
 - **Quality Control**: Performs QC on Illumina short reads.
-- **Preprocessing**: Filters and trims Illumina reads, processes PacBio long reads
+- **Preprocessing**: Filters and trims Illumina reads, preprocess PacBio long reads
 - **Contaminants Removal** Removes contamination from PacBio long reads (Blobtools2).
 - **Error Correction**: Corrects errors in PacBio reads by Illumina reads (FMLRC).
 - **Classification**: Cluster and Classify PacBio reads.
@@ -66,7 +66,11 @@ All conda dependencies can be installed via precheck.py before starting the anal
   conda env create -f TrAnnoScope.yaml
   conda activate trannoscope
   ```
-  3. **Install necessary packages and databases**
+  3. **Modify config file**
+    
+  Before proceeding the installation, modify the config/config.yaml based on your needs.
+
+  4. **Install necessary packages and databases**
   
   The Python script  called precheck.py is designed to manage the prerequisites and steps involved in running the TrAnnoScope pipeline. It utilizes Snakemake for workflow management and integrates various bioinformatics tools and databases. The script ensures that necessary environments and resources are installed and configured, guiding users through each step of the pipeline setup and execution process. 
 
@@ -99,10 +103,14 @@ python precheck.py preprocessing_rnaseq -c config/config.yaml
 ```
 
 Additionally, you can download SILVA LSU and SSU and also MT sequences of your organism of interest.  
-You can download SILVA DB from "https://www.arb-silva.de/no_cache/download/archive/current/Exports/SILVA_138.1_LSURef_tax_silva.fasta.gz" and 	SILVA_138.1_SSURef_tax_silva.fasta.gz (these are the current one for now)
-For MT DB, Check your organism in NCBI for MT genome
+You can download SILVA DB from: https://www.arb-silva.de/no_cache/download/archive/current/Exports\ as LSURef: **SILVA_138.1_LSURef_tax_silva.fasta.gz** and SSURef: **SILVA_138.1_SSURef_tax_silva.fasta.gz** (these are the current one in that time).\
+\
+For MT DB, you can check your organism in NCBI for MT genome.
 
-Then create bowtie2 index for them with bowtie2-build --threads <THREADS> <INPUT> <OUTPUT>
+To create bowtie2 index for DBs
+```bash
+bowtie2-build --threads <THREADS> <INPUT> <OUTPUT>
+```
 Add path of bowtie2-indexes to resources/fastqscreen/fastq_screen.conf
 
 **For the remove_contaminants step:**
@@ -131,7 +139,7 @@ python precheck.py annotation -c config/config.yaml
 
 **For quality_assessment step:** 
 
-it will ask to download the interested lineage file for BUSCO, if you already performed, contamination removal, you can say "NO".
+it will ask to download the interested lineage file for BUSCO, if you have already performed, contamination removal, you can say "NO".
 
 ```bash
 python precheck.py quality_assessment -c config/config.yaml
@@ -139,19 +147,19 @@ python precheck.py quality_assessment -c config/config.yaml
 
 **If you run ALL step:** 
 
-it will ask about all necessary files to download
+it will ask about all the necessary files to download
 
 ```bash
 python precheck.py all -c config/config.yaml
 ```
 
 ## Usage
-**Running on local computer:**
+**Running on the local computer:**
 
 Configure settings in config/config.yaml.
 
     ```bash
-    STEP                  Which step you want to run
+    STEP                  Which steps you want to run
       qc_rnaseq           Quality Control for Illumina short reads
       preprocessing_rnaseq
                           Filtering and Trimming of Illumina short reads
@@ -192,18 +200,18 @@ Configure settings in config/slurm_config.yaml.
 
 ### Test Data
 
-To verify the workflow, you can use the provided test data located in the `data/test_data/` directory.
+To verify the workflow, you can use the provided test data in the `data/test_data/` directory.
 
 1. **Run the workflow with the test data**:
    
 ```bash
-# activate conda environment
+# Activate conda environment
 conda activate trannoscope
 
 # Prepare the necessary files
 python precheck.py all -c config/test_config.yaml
 
-# If you want to run the TrAnnoScope on local computer
+# If you want to run the TrAnnoScope on a local computer
 python run_TrAnnoScope.py all -c config/test_config.yaml
 
 # If you want to run TrAnnoScope slurm cluster
