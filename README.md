@@ -70,7 +70,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
     
   Before proceeding the installation, modify the config/config.yaml based on your needs.
 
-  6. **Install necessary packages and databases**
+  4. **Install necessary packages and databases**
   
   The Python script  called precheck.py is designed to manage the prerequisites and steps involved in running the TrAnnoScope pipeline. It utilizes Snakemake for workflow management and integrates various bioinformatics tools and databases. The script ensures that necessary environments and resources are installed and configured, guiding users through each step of the pipeline setup and execution process. 
 
