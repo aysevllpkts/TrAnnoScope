@@ -99,7 +99,7 @@ python precheck.py preprocessing_rnaseq -c config/config.yaml
 ```
 
 Additionally, you can download SILVA LSU and SSU and also MT sequences of your organism of interest.  
-You can download SILVA DB from "https://www.arb-silva.de/no_cache/download/archive/current/Exports/SILVA_138.1_LSURef_tax_silva.fasta.gz" and 	SILVA_138.1_SSURef_tax_silva.fasta.gz (these are the current one for now)
+You can download SILVA DB from: - "https://www.arb-silva.de/no_cache/download/archive/current/Exports" SILVA_138.1_LSURef_tax_silva.fasta.gz" and 	SILVA_138.1_SSURef_tax_silva.fasta.gz (these are the current one for now)
 For MT DB, Check your organism in NCBI for MT genome
 
 Then create bowtie2 index for them with bowtie2-build --threads <THREADS> <INPUT> <OUTPUT>
