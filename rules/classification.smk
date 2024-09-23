@@ -24,17 +24,25 @@ if config["input_for_classification"] != "":
     else:
         print(f"Error: The path for LR provided in the config file does not exist: {config['clean_long_reads']}")
         LR_SAMPLES = None  # Or handle the error accordingly
-elif config["input_for_classification"] == "" and os.path.isdir(OUTDIR + "/pacbio/error_correction"):
+
+elif config["input_for_classification"] == "" and config["error_correction"]["proceed"] == "yes":
     print("LR input files created by error correction step will be used for classification step.")
-    ISOSEQ_DIR = OUTDIR + "/pacbio/error_correction"                                                                                              # path
+    ISOSEQ_DIR = OUTDIR + "/pacbio/error_correction"                                                                           # path
     LR_SAMPLES, = glob_wildcards(OUTDIR + "/pacbio/error_correction/{sample}.clean.corrected.fasta")                           # wildcards
     fasta_files = [os.path.join(OUTDIR, f"pacbio/error_correction/{sample}.clean.corrected.fasta") for sample in LR_SAMPLES]   # list of input files
+    LR_file_suffix = "clean.corrected.fasta"
+elif config["input_for_classification"] == "" and config["error_correction"]["proceed"] == "no":
+    print("LR input files created by contamination removal step will be used for the classification step because error-correction step was skipped")
+    ISOSEQ_DIR = OUTDIR + "/pacbio/remove_contaminants/clean_reads"                                                                           # path
+    LR_SAMPLES, = glob_wildcards(ISOSEQ_DIR + "/{sample}.clean.fasta")
+    fasta_files = [os.path.join(OUTDIR, f"pacbio/remove_contaminants/clean_reads/{sample}.clean.fasta") for sample in LR_SAMPLES]   # list of input files
+    LR_file_suffix = "clean.fasta"
 else:
     print("You don't have a input file. Define the path of your input directory correctly or run the previous steps of the workflow.")
     LR_SAMPLES = None 
 
 # rest of the suffix of the input file.
-LR_file_suffix = '.'.join(os.path.basename(fasta_files[0]).split('.')[1:]) # Get file name except wildcard part
+#LR_file_suffix = '.'.join(os.path.basename(fasta_files[0]).split('.')[1:]) # Get file name except wildcard part
 
 # Handling the else case: Ensure that Snakemake will stop execution if the transcriptome is not defined
 if LR_SAMPLES is None:
@@ -49,10 +57,10 @@ else:
 
 optional_input = [] 
 if config["cd-hit-est"]["proceed"] == "yes":
-    optional_input.append(expand(OUTDIR + "/pacbio/classification/cdhit/{sample}_clean_corrected_cdhit.fasta", sample = LR_SAMPLES))
-    optional_input.append(OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta")
+    optional_input.append(expand(OUTDIR + "/pacbio/classification/cdhit/{sample}_cdhit.fasta", sample = LR_SAMPLES))
+    optional_input.append(OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix)
 else: 
-    optional_input.append(OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta")
+    optional_input.append(OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix)
 #print(optional_input)
 
 rule all:   
@@ -66,7 +74,7 @@ if config["cd-hit-est"]["proceed"] == "yes":
         input:  
             ISOSEQ_DIR + "/{sample}." + LR_file_suffix
         output:
-            OUTDIR + "/pacbio/classification/cdhit/{sample}_clean_corrected_cdhit.fasta"
+            OUTDIR + "/pacbio/classification/cdhit/{sample}_cdhit.fasta"
         log:
             "logs/classification/cd_hit_est.{sample}.log"
         conda: 
@@ -87,9 +95,9 @@ if config["cd-hit-est"]["proceed"] == "yes":
 
     rule merge_sample:
         input:
-            expand(OUTDIR + "/pacbio/classification/cdhit/{sample}_clean_corrected_cdhit.fasta", sample = LR_SAMPLES)
+            expand(OUTDIR + "/pacbio/classification/cdhit/{sample}_cdhit.fasta", sample = LR_SAMPLES)
         output: 
-            OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta" # "." change to "_" in naming, Evigene has problems with "." naming. 
+            OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix # "." change to "_" in naming, Evigene has problems with "." naming. 
         threads:
             1
         resources:
@@ -103,7 +111,7 @@ else:
         input:
             ISOSEQ_DIR + "/{sample}." + LR_file_suffix
         output: 
-            OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta"
+            OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix
         threads:
             1
         resources:
@@ -115,7 +123,7 @@ else:
 
 rule evigene: 
     input:
-        OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta" 
+        OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix 
     output:
         touch(OUTDIR + "/pacbio/classification/evigene/evigene.done")
     log:
@@ -137,5 +145,5 @@ rule evigene:
         """
         mkdir -p {params.path}
         cd {params.path}
-        $EVIGENEHOME/scripts/prot/tr2aacds4.pl -cdnaseq {params.fasta} -NCPU={threads} -MAXMEM={resources.mem_mb} -MINAA={params.minaa} -logfile ../../../../{log} {params.extra} &>> ../../../../{log}         
+        $EVIGENEHOME/scripts/prot/tr2aacds4.pl -cdnaseq {params.fasta} -NCPU={threads} -MAXMEM={resources.mem_mb} -MINAA={params.minaa} -logfile ../../../../{log} {params.extra} &>> ../../../../{log} 
         """
