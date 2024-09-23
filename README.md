@@ -11,7 +11,7 @@ Additionally, optional error correction and contamination-removal steps are defi
 
 ## Features
 - **Quality Control**: Performs QC on Illumina short reads.
-- **Preprocessing**: Filters and trims Illumina reads, processes PacBio long reads
+- **Preprocessing**: Filters and trims Illumina reads, preprocess PacBio long reads
 - **Contaminants Removal** Removes contamination from PacBio long reads (Blobtools2).
 - **Error Correction**: Corrects errors in PacBio reads by Illumina reads (FMLRC).
 - **Classification**: Cluster and Classify PacBio reads.
@@ -131,7 +131,7 @@ python precheck.py annotation -c config/config.yaml
 
 **For quality_assessment step:** 
 
-it will ask to download the interested lineage file for BUSCO, if you already performed, contamination removal, you can say "NO".
+it will ask to download the interested lineage file for BUSCO, if you have already performed, contamination removal, you can say "NO".
 
 ```bash
 python precheck.py quality_assessment -c config/config.yaml
@@ -139,19 +139,19 @@ python precheck.py quality_assessment -c config/config.yaml
 
 **If you run ALL step:** 
 
-it will ask about all necessary files to download
+it will ask about all the necessary files to download
 
 ```bash
 python precheck.py all -c config/config.yaml
 ```
 
 ## Usage
-**Running on local computer:**
+**Running on the local computer:**
 
 Configure settings in config/config.yaml.
 
     ```bash
-    STEP                  Which step you want to run
+    STEP                  Which steps you want to run
       qc_rnaseq           Quality Control for Illumina short reads
       preprocessing_rnaseq
                           Filtering and Trimming of Illumina short reads
@@ -192,18 +192,18 @@ Configure settings in config/slurm_config.yaml.
 
 ### Test Data
 
-To verify the workflow, you can use the provided test data located in the `data/test_data/` directory.
+To verify the workflow, you can use the provided test data in the `data/test_data/` directory.
 
 1. **Run the workflow with the test data**:
    
 ```bash
-# activate conda environment
+# Activate conda environment
 conda activate trannoscope
 
 # Prepare the necessary files
 python precheck.py all -c config/test_config.yaml
 
-# If you want to run the TrAnnoScope on local computer
+# If you want to run the TrAnnoScope on a local computer
 python run_TrAnnoScope.py all -c config/test_config.yaml
 
 # If you want to run TrAnnoScope slurm cluster
