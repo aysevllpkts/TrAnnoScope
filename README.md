@@ -80,16 +80,16 @@ All conda dependencies can be installed via precheck.py before starting the anal
   positional arguments:
     STEPS                 Which step do you want to run
       all                 Run full analysis in TrAnnoScope pipeline
-      qc_rnaseq           Quality Control for Illumina short reads
+      qc_rnaseq           Quality Control for short reads
       preprocessing_rnaseq
-                          Filtering and Trimming of Illumina short reads
+                          Filtering and Trimming of short reads
       preprocessing_pacbio
                           Processing PacBio long reads
       remove_contaminants
-                          Contamination removal of PacBio long reads
-      error_correction    Error correction of PacBio long reads
-      classification      Clustering of PacBio long reads
-      annotation          Annotation of PacBio long reads
+                          Contamination removal of long reads
+      error_correction    Error correction of long reads
+      classification      Clustering of long reads
+      annotation          Annotation of long reads
       quality_assessment  Quality assessment of transcriptome
 
   Usage: python precheck.py [STEPS] -c config/config.yaml
@@ -160,16 +160,16 @@ Configure settings in config/config.yaml.
 
     ```bash
     STEP                  Which steps you want to run
-      qc_rnaseq           Quality Control for Illumina short reads
+      qc_rnaseq           Quality Control for short reads
       preprocessing_rnaseq
-                          Filtering and Trimming of Illumina short reads
+                          Filtering and Trimming of short reads
       preprocessing_pacbio
                           Processing PacBio long reads
       remove_contaminants
-                          Contamination removal of PacBio long reads
-      error_correction    Error correction of PacBio long reads
-      classification      Clustering of PacBio long reads
-      annotation          Annotation of PacBio long reads
+                          Contamination removal of long reads
+      error_correction    Error correction of long reads
+      classification      Clustering of long reads
+      annotation          Annotation of long reads
       quality_assessment  Quality assessment of the transcriptome for nucleotide and protein sequences
       all                 Run all steps  
     
@@ -183,13 +183,13 @@ Configure settings in config/slurm_config.yaml.
     ```bash
     Arguments:
       STEP       The step to execute. Available steps are:
-                 qc_rnaseq             - Quality Control for Illumina short reads
-                 preprocessing_rnaseq  - Filtering and Trimming of Illumina short reads
+                 qc_rnaseq             - Quality Control for short reads
+                 preprocessing_rnaseq  - Filtering and Trimming of short reads
                  preprocessing_pacbio  - Processing PacBio long reads
-                 remove_contaminants   - Contamination removal of PacBio long reads
-                 error_correction      - Error correction of PacBio long reads
-                 classification        - Clustering of PacBio long reads
-                 annotation            - Annotation of PacBio long reads
+                 remove_contaminants   - Contamination removal of long reads
+                 error_correction      - Error correction of long reads
+                 classification        - Clustering of long reads
+                 annotation            - Annotation of long reads
                  quality_assessment    - Quality assessment of the transcriptome
                  all                   - Run all the steps
 
