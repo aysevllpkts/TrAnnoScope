@@ -10,11 +10,11 @@ Additionally, optional error correction and contamination-removal steps are defi
 
 
 ## Features
-- **Quality Control**: Performs QC on Illumina short reads.
-- **Preprocessing**: Filters and trims Illumina reads, preprocess PacBio long reads
-- **Contaminants Removal** Removes contamination from PacBio long reads (Blobtools2).
-- **Error Correction**: Corrects errors in PacBio reads by Illumina reads (FMLRC).
-- **Classification**: Cluster and Classify PacBio reads.
+- **Quality Control**: Performs QC on short reads.
+- **Preprocessing**: Filters and trims reads, preprocess PacBio long reads
+- **Contaminants Removal** Removes contamination from long reads (Blobtools2).
+- **Error Correction**: Corrects errors in long reads by short reads (FMLRC).
+- **Classification**: Cluster and Classify long reads.
 - **Annotation**: Annotates the full-length transcripts.
 - **Quality Assessment**: Assesses the quality of the transcriptome.
 
