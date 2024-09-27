@@ -128,54 +128,12 @@ def main():
         logging.info(end_message)
     
     elif args.step == "all":
-        for step in step: 
+        for step in steps: 
             rule, log_file, start_message, end_message = steps[step]
             logging.info(start_message)
-            run_snakemake(rule, log_file, args.jobs, args.account_name, args.partition, args.time)
+            run_snakemake(rule, args.config, log_file, args.cores)
             logging.info(end_message)
-        
-        """
-        rule, log_file, start_message, end_message = steps["qc_rnaseq"]
-        logging.info(start_message)
-        run_snakemake("rules/quality_SR.smk", args.config, log_file, args.cores)
-        logging.info(end_message)
-
-        rule, log_file, start_message, end_message = steps["preprocessing_rnaseq"]
-        logging.info(start_message)
-        run_snakemake("rules/preprocessing_SR.smk", args.config, log_file, args.cores)
-        logging.info(end_message)
-
-        rule, log_file, start_message, end_message = steps["preprocessing_pacbio"]
-        logging.info(start_message)
-        run_snakemake("rules/preprocessing_LR.smk", args.config, log_file, args.cores)
-        logging.info(end_message)
-
-        rule, log_file, start_message, end_message = steps["remove_contaminants"]
-        logging.info(start_message)
-        run_snakemake("rules/contamination.smk", args.config, log_file, args.cores)
-        logging.info(end_message)
-
-        rule, log_file, start_message, end_message = steps["error_correction"]
-        logging.info(start_message)
-        run_snakemake("rules/error_correction.smk", args.config, log_file, args.cores)
-        logging.info(end_message)
-
-        rule, log_file, start_message, end_message = steps["classification"]
-        logging.info(start_message)
-        run_snakemake("rules/classification.smk", args.config, log_file, args.cores)
-        logging.info(end_message)
-
-        rule, log_file, start_message, end_message = steps["annotation"]
-        logging.info(start_message)
-        run_snakemake("rules/annotation.smk", args.config, log_file, args.cores)
-        logging.info(end_message)
-
-        rule, log_file, start_message, end_message = steps["quality_assessment"]
-        logging.info(start_message)
-        run_snakemake("rules/quality_assessment.smk", args.config, log_file, args.cores)
-        logging.info(end_message)
-        """
-
+            
     else:
         logging.error("Invalid step specified. Please choose a valid step.")
         sys.exit(1)
