@@ -80,13 +80,13 @@ def parse_args():
     common_parser.add_argument("-t", "--cores", type=int, default=1, help="Specify the number of cores you want to use (default: 1)")
 
     # Subparser for each step
-    subparsers.add_parser("qc_rnaseq", parents=[common_parser], help="Quality Control for Illumina short reads")
-    subparsers.add_parser("preprocessing_rnaseq", parents=[common_parser], help="Filtering and Trimming of Illumina short reads")
+    subparsers.add_parser("qc_rnaseq", parents=[common_parser], help="Quality Control for short reads")
+    subparsers.add_parser("preprocessing_rnaseq", parents=[common_parser], help="Filtering and Trimming of short reads")
     subparsers.add_parser("preprocessing_pacbio", parents=[common_parser], help="Processing PacBio long reads")
-    subparsers.add_parser("remove_contaminants", parents=[common_parser], help="Contamination removal of PacBio long reads")
-    subparsers.add_parser("error_correction", parents=[common_parser], help="Error correction of PacBio long reads")
-    subparsers.add_parser("classification", parents=[common_parser], help="Clustering of PacBio long reads")
-    subparsers.add_parser("annotation", parents=[common_parser], help="Annotation of PacBio long reads")
+    subparsers.add_parser("remove_contaminants", parents=[common_parser], help="Contamination removal of long reads")
+    subparsers.add_parser("error_correction", parents=[common_parser], help="Error correction of long reads")
+    subparsers.add_parser("classification", parents=[common_parser], help="Clustering of long reads")
+    subparsers.add_parser("annotation", parents=[common_parser], help="Annotation of long reads")
     subparsers.add_parser("quality_assessment", parents=[common_parser], help="Quality assessment of the transcriptome for nucleotide and protein sequences"),
     subparsers.add_parser("all", parents=[common_parser], help="Run all the steps")
 
@@ -110,13 +110,13 @@ def main():
 
     # Dictionary to map steps to Snakemake rules and log files
     steps = {
-        "qc_rnaseq": ("rules/quality_SR.smk", "log_quality_control_SR.txt", "Start Quality Control for Illumina short reads!", "Quality control is done!\n Please check the report and decide whether trimming is needed."),
-        "preprocessing_rnaseq": ("rules/preprocessing_SR.smk", "log_trim.txt", "Start Filtering and Trimming of Illumina short reads!", "Filtering and Trimming of Illumina short reads are done!"),
+        "qc_rnaseq": ("rules/quality_SR.smk", "log_quality_control_SR.txt", "Start Quality Control for short reads!", "Quality control is done!\n Please check the report and decide whether trimming is needed."),
+        "preprocessing_rnaseq": ("rules/preprocessing_SR.smk", "log_trim.txt", "Start Filtering and Trimming of short reads!", "Filtering and Trimming of short reads are done!"),
         "preprocessing_pacbio": ("rules/preprocessing_LR.smk", "log_processing_LR.txt", "Start Processing PacBio long reads!", "Processing PacBio long reads is done!\n Now, you have HQ FL reads."),
-        "remove_contaminants": ("rules/contamination.smk", "log_remove_contaminants.txt", "Start contamination removal of PacBio long reads!", "Contamination removal is done!\n You can proceed to the clustering/classification step."),
-        "error_correction": ("rules/error_correction.smk", "log_error_correction.txt", "Start error correction of PacBio long reads!", "Error correction is done!\n You can proceed to the clustering/classification step."),
-        "classification": ("rules/classification.smk", "log_clustering.txt", "Start clustering of PacBio long reads!", "Clustering is done!\n Now, you have TrAnnoScope results."),
-        "annotation": ("rules/annotation.smk", "log_annotation.txt", "Start annotation of PacBio long reads!", "Annotation is done!\n Now, you have TrAnnoScope results."),
+        "remove_contaminants": ("rules/contamination.smk", "log_remove_contaminants.txt", "Start contamination removal of long reads!", "Contamination removal is done!\n You can proceed to the clustering/classification step."),
+        "error_correction": ("rules/error_correction.smk", "log_error_correction.txt", "Start error correction of long reads!", "Error correction is done!\n You can proceed to the clustering/classification step."),
+        "classification": ("rules/classification.smk", "log_clustering.txt", "Start clustering of long reads!", "Clustering is done!\n Now, you have TrAnnoScope results."),
+        "annotation": ("rules/annotation.smk", "log_annotation.txt", "Start annotation of long reads!", "Annotation is done!\n Now, you have TrAnnoScope results."),
         "quality_assessment": ("rules/quality_assessment.smk", "log_quality_assessment.txt", "Start quality assessment for the transcriptome!", "Quality assessment is done!\n Now, you have TrAnnoScope results.")
     }
 
