@@ -17,13 +17,13 @@ show_help() {
     echo
     echo "Arguments:"
     echo "  STEP       The step to execute. Available steps are:"
-    echo "             qc_rnaseq             - Quality Control for Illumina short reads"
-    echo "             preprocessing_rnaseq  - Filtering and Trimming of Illumina short reads"
+    echo "             qc_rnaseq             - Quality Control for short reads"
+    echo "             preprocessing_rnaseq  - Filtering and Trimming of short reads"
     echo "             preprocessing_pacbio  - Processing PacBio long reads"
-    echo "             remove_contaminants   - Contamination removal of PacBio long reads"
-    echo "             error_correction      - Error correction of PacBio long reads"
-    echo "             classification        - Clustering of PacBio long reads"
-    echo "             annotation            - Annotation of PacBio long reads"
+    echo "             remove_contaminants   - Contamination removal of long reads"
+    echo "             error_correction      - Error correction of long reads"
+    echo "             classification        - Clustering of long reads"
+    echo "             annotation            - Annotation of long reads"
     echo "             quality_assessment    - Quality assessment of the transcriptome"
     echo "             all                   - Run all the steps"
     echo
@@ -36,13 +36,13 @@ show_help() {
 }
 
 declare -A steps
-steps["qc_rnaseq"]="rules/quality_SR.smk|log_quality_control_SR.txt|Starting Quality Control for Illumina short reads!|Quality control is done! Please check the report and decide whether trimming is needed."
-steps["preprocessing_rnaseq"]="rules/preprocessing_SR.smk|log_trim.txt|Starting Filtering and Trimming of Illumina short reads!|Filtering and Trimming of Illumina short reads are done!"
+steps["qc_rnaseq"]="rules/quality_SR.smk|log_quality_control_SR.txt|Starting Quality Control for short reads!|Quality control is done! Please check the report and decide whether trimming is needed."
+steps["preprocessing_rnaseq"]="rules/preprocessing_SR.smk|log_trim.txt|Starting Filtering and Trimming of short reads!|Filtering and Trimming of short reads are done!"
 steps["preprocessing_pacbio"]="rules/preprocessing_LR.smk|log_processing_LR.txt|Starting Processing PacBio long reads!|Processing PacBio long reads is done! Now, you have HQ FL reads."
-steps["remove_contaminants"]="rules/contamination.smk|log_remove_contaminants.txt|Starting contamination removal of PacBio long reads!|Contamination removal is done! You can proceed to the clustering/classification step."
-steps["error_correction"]="rules/error_correction.smk|log_error_correction.txt|Starting error correction of PacBio long reads!|Error correction is done! You can proceed to the clustering/classification step."
-steps["classification"]="rules/classification.smk|log_clustering.txt|Starting clustering of PacBio long reads!|Clustering is done! Now, you have TrAnnoScope results."
-steps["annotation"]="rules/annotation.smk|log_annotation.txt|Starting annotation of PacBio long reads!|Annotation is done! Now, you have TrAnnoScope results."
+steps["remove_contaminants"]="rules/contamination.smk|log_remove_contaminants.txt|Starting contamination removal of long reads!|Contamination removal is done! You can proceed to the clustering/classification step."
+steps["error_correction"]="rules/error_correction.smk|log_error_correction.txt|Starting error correction of long reads!|Error correction is done! You can proceed to the clustering/classification step."
+steps["classification"]="rules/classification.smk|log_clustering.txt|Starting clustering of long reads!|Clustering is done! Now, you have TrAnnoScope results."
+steps["annotation"]="rules/annotation.smk|log_annotation.txt|Starting annotation of long reads!|Annotation is done! Now, you have TrAnnoScope results."
 steps["quality_assessment"]="rules/quality_assessment.smk|log_quality_assessment.txt|Starting quality assessment for the transcriptome!|Quality assessment is done! Now, you have TrAnnoScope results."
 
 # Define the order of steps
