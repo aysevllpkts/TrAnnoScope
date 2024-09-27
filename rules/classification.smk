@@ -58,9 +58,9 @@ else:
 optional_input = [] 
 if config["cd-hit-est"]["proceed"] == "yes":
     optional_input.append(expand(OUTDIR + "/pacbio/classification/cdhit/{sample}_cdhit.fasta", sample = LR_SAMPLES))
-    optional_input.append(OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix)
+    optional_input.append(OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta")
 else: 
-    optional_input.append(OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix)
+    optional_input.append(OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta")
 #print(optional_input)
 
 rule all:   
@@ -97,7 +97,7 @@ if config["cd-hit-est"]["proceed"] == "yes":
         input:
             expand(OUTDIR + "/pacbio/classification/cdhit/{sample}_cdhit.fasta", sample = LR_SAMPLES)
         output: 
-            OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix # "." change to "_" in naming, Evigene has problems with "." naming. 
+            OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta" # "." change to "_" in naming, Evigene has problems with "." naming. 
         threads:
             1
         resources:
@@ -111,7 +111,7 @@ else:
         input:
             ISOSEQ_DIR + "/{sample}." + LR_file_suffix
         output: 
-            OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix
+            OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta" 
         threads:
             1
         resources:
@@ -123,7 +123,7 @@ else:
 
 rule evigene: 
     input:
-        OUTDIR + "/pacbio/classification/evigene/merged_" + LR_file_suffix 
+        OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta"  
     output:
         touch(OUTDIR + "/pacbio/classification/evigene/evigene.done")
     log:
