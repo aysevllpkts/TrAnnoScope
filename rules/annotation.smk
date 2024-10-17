@@ -963,7 +963,7 @@ rule get_summary:
         # Summary table
         {params.path}/util/count_table_fields.pl {input.annotation} > {output.summary_table} 2> {log}
         # extract go terms - include ancestral terms (-I), gene (-G), transcripts (--trans, -T)
-        {params.path}/util/extract_GO_assignments_from_Trinotate_xls.pl --Trinotate_xls {input.annotation} --trans > {params.outdir}/{params.prefix}_trans.goterms 2>> {log}
+        resources/extract_GO_assignments_from_Trinotate_xls_updated.pl --Trinotate_xls {input.annotation} --trans > {params.outdir}/{params.prefix}_trans.goterms 2>> {log}
         # Get GOSlims 
         {params.path}/util/gene_ontology/Trinotate_GO_to_SLIM.pl  {params.outdir}/{params.prefix}_trans.goterms > {output.go_slims} 2>> {log}
         # Create GO plots
