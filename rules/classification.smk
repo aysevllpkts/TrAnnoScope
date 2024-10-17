@@ -109,7 +109,7 @@ if config["cd-hit-est"]["proceed"] == "yes":
 else: 
     rule merge_sample:
         input:
-            ISOSEQ_DIR + "/{sample}." + LR_file_suffix
+            expand(ISOSEQ_DIR + "/{sample}." + LR_file_suffix, sample = LR_SAMPLES)
         output: 
             OUTDIR + "/pacbio/classification/evigene/merged_clean_corrected.fasta" 
         threads:

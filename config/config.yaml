@@ -4,10 +4,10 @@ PROJECT: "" # project name for the output directory
 # ============================== Sub-workflow input definition ===============================
 
 # Paths to preprocessed long reads, clean short reads, clean long reads, input for classification and annotation
-preprocessed_long_reads: ""         # Directory containing preprocessed long reads, should be <sample>.*.fq.gz  
-clean_short_reads: ""               # Directory containing clean short reads, should be <sample>_<fr>.*.fq.gz  
-clean_long_reads: ""                # Directory containing clean long reads, should be <sample>.*.fasta        
-input_for_classification: ""        # Directory containing input files for classification, should be <sample>.*.fasta 
+preprocessed_long_reads: ""         # Directory containing preprocessed long reads, should be <sample>.clustered.fasta  
+clean_short_reads: ""               # Directory containing clean short reads, should be <sample>_<fr>.*.fq.gz  (usage in rule: <sample>_fr.trimmed.fq.gz)
+clean_long_reads: ""                # Directory containing clean long reads, should be <sample>.clean.fasta        
+input_for_classification: ""        # Directory containing input files for classification, should be <sample>.clean.fasta 
 input_for_annotation:
   nucl: ""                          # Path to nucleotide file for annotation 
   prot: ""                          # Path to protein file for annotation    

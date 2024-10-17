@@ -4,10 +4,10 @@
 #SBATCH --partition short
 #SBATCH -N 1
 #SBATCH -n 2 
-#SBATCH --mem=2G
-#SBATCH --account MolGen
+#SBATCH --mem=4G
+#SBATCH --account 
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=aysevilpektas@mbg.au.dk
+#SBATCH --mail-user=
 
 # Function to display help
 show_help() {

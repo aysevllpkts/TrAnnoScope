@@ -215,7 +215,7 @@ python precheck.py all -c config/test_config.yaml
 python run_TrAnnoScope.py all -c config/test_config.yaml
 
 # If you want to run TrAnnoScope slurm cluster
-sbatch slurm_submit.py all [-A <slurm account name>]
+sbatch slurm_submit.sh all [-A <slurm account name>]
 ```
 
 

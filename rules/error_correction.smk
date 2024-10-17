@@ -44,7 +44,7 @@ if config["error_correction"]["proceed"] == "yes":
         LR_SAMPLES, = glob_wildcards(OUTDIR + "/pacbio/remove_contaminants/clean_reads/{sample}.clean.fasta")                           # wildcards
         LR_SAMPLES = set(sorted(LR_SAMPLES))
         fasta_files = [os.path.join(OUTDIR, f"pacbio/remove_contaminants/clean_reads/{sample}.clean.fasta") for sample in LR_SAMPLES]   # list of input files
-        LR_file_suffix = '.clean.fasta'
+        LR_file_suffix = 'clean.fasta'
 
     else:
         print("You don't have a input file. Define the path of your input directory correctly or run the previous steps of the workflow.")
