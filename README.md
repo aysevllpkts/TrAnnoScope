@@ -6,7 +6,8 @@ TrAnnoScope is based on the Snakemake workflow management system. This tool offe
 Additionally, optional error correction and contamination-removal steps are defined. FMLRC can be used to increase the quality of long reads obtained by clean Illumina reads, while Blobtools remove contamination from long reads using coverage information obtained from clean Illumina reads and BUSCO results. During the assembly and reduction step, CD-HIT-Est eliminates redundancy between tissue samples, and EvidentialGene removes duplicate reads and obtains protein-coding reads. A quality evaluation of an assembly is conducted based on the completeness, the length distribution, and the ratio of nearly full-length transcripts against databases of well-known biological sequences such as UniProt or closely related species. Trinotate software is used to perform functional annotation of transcripts against various databases as part of the annotation process. Trinotate offers sequence databases, including Pfam, SwissProt, SignalP, TMHMM, EggNog, and Infernal. Additionally, homology searches against the NR and NT databases were added to the workflow as an option. But the users should prepare the necessary files for themselves with the provided bash scripts. As a whole, the workflow includes quality control, reduction of redundancy, obtaining protein-coding transcripts, evaluating assembly, and annotating full-length transcripts and protein sequences.
 
 ## Workflow
-![Slide1](https://github.com/user-attachments/assets/ca0a3a5f-a654-4a5a-ac9d-d7900a98caa4)
+![image](https://github.com/user-attachments/assets/859b75a4-3d46-40fb-bcf0-e9780b49dd7f)
+
 
 
 ## Features
