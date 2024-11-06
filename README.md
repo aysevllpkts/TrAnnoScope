@@ -230,8 +230,5 @@ sbatch slurm_submit.sh all [-A <slurm account name>]
 ## License
 TrAnnoScope is licensed under the [MIT License](LICENSE).
 
-## Contributions
-Contributions are welcome. Please fork the repository and submit a pull request.
-
 ## Contact
 For any questions or issues, please contact [aysevilpektas@mbg.au.dk](mailto:aysevilpektas@mbg.au.dk).
