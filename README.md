@@ -74,7 +74,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
   conda env create -f TrAnnoScope.yaml
   conda activate trannoscope
   ```
-  3. **Modify config file**
+  3. **Modify config.yaml file**
     
   Before proceeding the installation, modify the config/config.yaml based on your needs.
 
@@ -222,7 +222,7 @@ python precheck.py all -c config/test_config.yaml
 # If you want to run the TrAnnoScope on a local computer
 python run_TrAnnoScope.py all -c config/test_config.yaml
 
-# If you want to run TrAnnoScope slurm cluster
+# If you want to run TrAnnoScope slurm cluster 
 sbatch slurm_submit.sh all [-A <slurm account name>]
 ```
 
