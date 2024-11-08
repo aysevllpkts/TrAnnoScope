@@ -226,6 +226,8 @@ python run_TrAnnoScope.py all -c config/test_config.yaml
 sbatch slurm_submit.sh all [-A <slurm account name>]
 ```
 
+## Citation
+The TrAnnoScope paper is currently under review. You can access the preprint version at https://www.preprints.org/manuscript/202411.0489/v1.
 
 ## License
 TrAnnoScope is licensed under the [MIT License](LICENSE).
