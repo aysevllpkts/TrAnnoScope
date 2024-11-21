@@ -7,6 +7,5 @@ dependencies:
   - busco
   - fastq-screen
   - bowtie2
-  - diamond=2.1.9
   - snakemake-minimal=7.25.1
  
