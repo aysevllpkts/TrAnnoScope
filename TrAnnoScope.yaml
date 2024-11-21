@@ -1,12 +1,12 @@
 name: trannoscope
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
-  - busco=5.2.2
-  - fastq-screen=0.14.0
-  - bowtie2=2.4.5
-  - diamond=2.1.9=h43eeafb_0
+  - busco
+  - fastq-screen
+  - bowtie2
+  - diamond=2.1.9
   - snakemake-minimal=7.25.1
  
