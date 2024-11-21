@@ -75,7 +75,8 @@ All conda dependencies can be installed via precheck.py before starting the anal
   conda activate trannoscope
   ```
 
-  Troubleshooting Dependency Conflicts
+  **Troubleshooting Dependency Conflicts**
+  
   If you encounter any dependency conflicts during the environment creation, you may need to adjust the channel priority before proceeding. To do so, run the following command:
   ```bash
   conda config --set channel_priority false
