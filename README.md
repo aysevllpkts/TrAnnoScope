@@ -74,6 +74,15 @@ All conda dependencies can be installed via precheck.py before starting the anal
   conda env create -f TrAnnoScope.yaml
   conda activate trannoscope
   ```
+
+  Troubleshooting Dependency Conflicts
+  If you encounter any dependency conflicts during the environment creation, you may need to adjust the channel priority before proceeding. To do so, run the following command:
+  ```bash
+  conda config --set channel_priority false
+  conda env create -f TrAnnoScope.yaml
+  conda activate trannoscope
+  ```
+
   3. **Modify config.yaml file**
     
   Before proceeding the installation, modify the config/config.yaml based on your needs.
