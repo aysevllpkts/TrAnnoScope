@@ -170,8 +170,8 @@ python precheck.py preprocessing_rnaseq -c config/config.yaml
 Additionally, you can download the SILVA LSU, SSU, and mitochondrial (MT) sequences for your organism of interest.
 - SILVA Database:
 Download the LSU and SSU reference files from [SILVA Database Exports](https://www.arb-silva.de/no_cache/download/archive/current/Exports)
- - LSURef: **SILVA_138.1_LSURef_tax_silva.fasta.gz**
- - SSURef: **SILVA_138.1_SSURef_tax_silva.fasta.gz**
+  -  LSURef: **SILVA_138.1_LSURef_tax_silva.fasta.gz**
+  -  SSURef: **SILVA_138.1_SSURef_tax_silva.fasta.gz**
  These are the versions used in the analysis.
 
 - For the MT database, check your organism’s mitochondrial genome on [NCBI](https://www.ncbi.nlm.nih.gov/)
