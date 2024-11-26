@@ -1,8 +1,8 @@
 # TrAnnoScope
 
-**TrAnnoScope** is a comprehensive workflow designed to process both long and short reads to generate full-length transcripts and perform comprehensive functional annotation.
+**TrAnnoScope** is a comprehensive workflow designed to process long and short reads to generate full-length transcripts and perform comprehensive functional annotation.
 
-TrAnnoScope is built on the Snakemake, offering a robust suite of features for generating full-length transcriptomes from multiple tissues using long and short reads, along with functional annotation of the resulting transcripts. The workflow is modular, consisting of sub-workflows that can be run independently for specific analyses. The initialization step involves installing necessary bioinformatics packages and preparing relevant reference databases.
+TrAnnoScope is built on the **Snakemake**, offering a robust suite of features for generating full-length transcriptomes from multiple tissues using long and short reads, along with functional annotation of the resulting transcripts. The modular workflow consists of sub-workflows that can be run independently for specific analyses. The initialization step involves installing necessary bioinformatics packages and preparing relevant reference databases.
 
 During preprocessing, various quality control tools are used to assess and improve the quality of raw Illumina reads, while IsoSeq3 is employed to obtain high-quality reads from PacBio data. Optional error correction and contamination removal steps are also defined. FMLRC can be used to enhance the quality of long reads by correcting errors based on clean Illumina reads, while BlobTools2 removes contamination from long reads using coverage information derived from the clean Illumina reads and BUSCO results.
 
@@ -18,16 +18,16 @@ In summary, the workflow includes quality control, redundancy reduction, protein
 
 
 ## Features
-- **Quality Control**: Performs QC on short reads.
-- **Preprocessing**: Filters and trims reads, preprocess PacBio long reads
-- **Contaminants Removal** Removes contamination from long reads (Blobtools2).
-- **Error Correction**: Corrects errors in long reads by short reads (FMLRC).
+- **Quality Control**: Perform QC on short reads.
+- **Preprocessing**: Filter and trim short reads, preprocess PacBio long reads
+- **Contaminants Removal** Remove contamination from long reads (Blobtools2).
+- **Error Correction**: Correct errors in long reads by short reads (FMLRC).
 - **Classification**: Cluster and Classify long reads.
-- **Annotation**: Annotates the full-length transcripts.
-- **Quality Assessment**: Assesses the quality of the transcriptome.
+- **Annotation**: Annotate the full-length transcripts.
+- **Quality Assessment**: Assess the quality of the transcriptome.
 
 ## Dependencies
-- **Programs** 
+- **Tools and Softwares** 
   - Snakemake 7.25.1
   - Python
   - FastQC
@@ -59,6 +59,7 @@ In summary, the workflow includes quality control, redundancy reduction, protein
   - Rfam
   - NR
   - NT
+  - SILVA (LSU, SSU)
   
 All conda dependencies can be installed via precheck.py before starting the analysis. Otherwise, they will be installed automatically by TrAnnoScope.
 
@@ -69,30 +70,32 @@ All conda dependencies can be installed via precheck.py before starting the anal
   git clone https://github.com/aysevllpkts/TrAnnoScope.git
   ```
 
-  2. **Create and activate default environment:**
+  2. **Install Miniforge (If not already installed):**
+  ```bash
+  wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O miniforge.sh
+  bash miniforge.sh
+
+  # configuring conda
+  conda activate base
+  conda config --append channels bioconda
+  conda config --set channel_priority disabled # to prevent dependency conflicts
+  ```
+
+  3. **Create and activate default environment:**
   ```bash
   conda env create -f TrAnnoScope.yaml
   conda activate trannoscope
   ```
 
-  **Troubleshooting Dependency Conflicts**
-  
-  If you encounter any dependency conflicts during the environment creation, you may need to adjust the channel priority before proceeding. To do so, run the following command:
-  ```bash
-  conda config --set channel_priority false
-  conda env create -f TrAnnoScope.yaml
-  conda activate trannoscope
-  ```
+  4. **Modify config.yaml file**
 
-  3. **Modify config.yaml file**
-    
-  Before proceeding the installation, modify the config/config.yaml based on your needs.
+  Edit the config/config.yaml to set file paths and parameters for your analysis before running the installation with precheck.py.
 
-  4. **Install necessary packages and databases**
-  
-  The Python script  called precheck.py is designed to manage the prerequisites and steps involved in running the TrAnnoScope pipeline. It utilizes Snakemake for workflow management and integrates various bioinformatics tools and databases. The script ensures that necessary environments and resources are installed and configured, guiding users through each step of the pipeline setup and execution process. 
+  5. **Install necessary packages and databases**
 
-  **NOTE:** If you want to use SignalP and TmHMM2, first you should install tar.gz file of them and store it in resources/
+  The precheck.py script is designed to streamline the setup and installation of conda dependencies required to run the TrAnnoScope pipeline effectively. It ensures that all prerequisites, such as software packages, databases, and configurations, are properly set up before the pipeline execution. The script also allows for modular installation of requirements based on specific pipeline steps.
+
+  **NOTE:** If you want to use SignalP and TmHMM2, first you should install .tar.gz file of them and store it in resources/SignalP and resources/tmhmm2 respectively.
   
   ```bash
   positional arguments:
@@ -112,28 +115,66 @@ All conda dependencies can be installed via precheck.py before starting the anal
 
   Usage: python precheck.py [STEPS] -c config/config.yaml
   ```
+  **Full Installation**
+  This command will check and install all necessary tools for the entire pipeline.
+  ```bash
+  python precheck.py all -c config/config.yaml 
+  ```
+
+  **Step-specific Installation**
+  You can specify individual steps if you only need to install tools related to a specific part of the pipeline. Replace <STEP> with the desired step name.
+  ```bash
+  python precheck.py <STEP> -c config/config.yaml
+  ```
+
+  **Supported Steps and Actions**
+	•	qc_rnaseq: No specific actions listed.
+	•	preprocessing_rnaseq: 
+       - FastQ Screen Genomes: Download pre-indexed Bowtie2 genomes and configuration files. 
+	•	preprocessing_pacbio: No specific actions listed. 
+	•	remove_contaminants: 
+       - BUSCO Dataset: Download lineage-specific dataset for transcriptome quality assessment.
+       - Download taxonomic information (taxdump).
+	•	error_correction: No specific actions listed.
+	•	classification: No specific actions listed.
+	•	annotation:
+       - Install the Trinotate suite and related databases
+       - create SQLITE.db file and configure the TRINOTATE_DATA_DIR and EGGNOG_DATA_DIR directories.
+       - install SignalP and TmHMM2. (tar.gz files should be located at resources beforehand)
+	•	quality_assessment: 
+       - BUSCO Dataset: Download lineage-specific dataset for transcriptome quality assessment.
+
+   NOTE: When running precheck.py, all conda environments will be installed.
+
+
+**Additional Configuration for Specific Steps**
+
 **For preprocessing_rnaseq step:** 
 
-it will ask to download FastQScreen Genome indexes. 
+This step will prompt you to download the FastQScreen genome indexes.
 
 ```bash
 python precheck.py preprocessing_rnaseq -c config/config.yaml
 ```
 
-Additionally, you can download SILVA LSU and SSU and also MT sequences of your organism of interest.  
-You can download SILVA DB from: https://www.arb-silva.de/no_cache/download/archive/current/Exports \ as LSURef: **SILVA_138.1_LSURef_tax_silva.fasta.gz** and SSURef: **SILVA_138.1_SSURef_tax_silva.fasta.gz** (these are the current one in that time).\
-\
-For MT DB, you can check your organism in NCBI for MT genome.
+Additionally, you can download the SILVA LSU, SSU, and mitochondrial (MT) sequences for your organism of interest.
+• SILVA Database:
+Download the LSU and SSU reference files from [SILVA Database Exports](https://www.arb-silva.de/no_cache/download/archive/current/Exports)
+ - LSURef: **SILVA_138.1_LSURef_tax_silva.fasta.gz**
+ - SSURef: **SILVA_138.1_SSURef_tax_silva.fasta.gz**
+ These are the versions used in the analysis.
 
-To create bowtie2 index for DBs
+• For the MT database, check your organism’s mitochondrial genome on [NCBI](https://www.ncbi.nlm.nih.gov/)
+
+To create Bowtie2 indexes for these databases, use:
 ```bash
 bowtie2-build --threads <THREADS> <INPUT> <OUTPUT>
 ```
-Add path of bowtie2-indexes to resources/fastqscreen/fastq_screen.conf
+Then, add the path of the Bowtie2 indexes to the resources/fastqscreen/fastq_screen.conf file.
 
 **For the remove_contaminants step:**
 
-it will ask to download interested lineage files for BUSCO and taxdump which is used by Blobtools2.
+This step will prompt you to download the necessary lineage files for BUSCO and taxdump (used by Blobtools2).
 
 ```bash
 python precheck.py remove_contaminants -c config/config.yaml
@@ -141,38 +182,34 @@ python precheck.py remove_contaminants -c config/config.yaml
 
 **For annotation step:** 
 
-it will ask to download TRINOTATE_DATA_DIR for databases and register SignalP and TmHMM2.
+This step will prompt you to install Trinotate_v4.2, download the TRINOTATE_DATA_DIR databases, and configure SignalP and TmHMM2.
 
-If you want SignalP and TmHMM2 search, first you have to install request files.
+To use SignalP and TmHMM2, you first need to request the necessary files:
+• Request SignalP 6.0h-fast from:
+  - https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast
+  - [SignalP 6.0h-fast Request](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast)
+  Store the file in: resources/signalp6
 
-Request to get signalp-6h-fast from: https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast 
-The file should be stored at resources/signalp6
+• Request TmHMM2 from:
+  - https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=tmhmm&version=2.0c&packageversion=2.0c&platform=Linux
+  - [TMHMM 2.0c Request](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=tmhmm&version=2.0c&packageversion=2.0c&platform=Linux)
+  Store the file in: resources/tmhmm2
 
-Request tmhmm2 from: https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=tmhmm&version=2.0c&packageversion=2.0c&platform=Linux 
-The file should be stored at resources/tmhmm2
-
+Then run the following command to complete the annotation step:
 ```bash
 python precheck.py annotation -c config/config.yaml
 ```
 
 **For quality_assessment step:** 
 
-it will ask to download the interested lineage file for BUSCO, if you have already performed, contamination removal, you can say "NO".
+This step will prompt you to download the lineage file for BUSCO. If you have already performed contamination removal, you can answer “NO” to skip this download.
 
 ```bash
 python precheck.py quality_assessment -c config/config.yaml
 ```
 
-**If you run ALL step:** 
-
-it will ask about all the necessary files to download
-
-```bash
-python precheck.py all -c config/config.yaml
-```
-
 ## Usage
-**Running on the local computer:**
+**Running on the local computer (Linux environment):**
 
 Configure settings in config/config.yaml.
 
@@ -191,8 +228,8 @@ Configure settings in config/config.yaml.
       quality_assessment  Quality assessment of the transcriptome for nucleotide and protein sequences
       all                 Run all steps  
     
-    Usage: python run_FLAnnotTrans.py STEP -c config/config.yaml -t CORES
-    Example: python run_FLAnnotTrans.py all -c config/config.yaml -t 2
+    Usage: python run_TrAnnoScope.py STEP -c config/config.yaml -t CORES
+    Example: python run_TrAnnoScope.py all -c config/config.yaml -t 8
     ```
 **Running on SLURM cluster**
 
@@ -212,16 +249,24 @@ Configure settings in config/slurm_config.yaml.
                  all                   - Run all the steps
 
     Usage: sbatch slurm_submit.sh STEP [-A <slurm account name>]
-    Example: sbatch slurm_submit.sh qc_rnaseq [-A <slurm account_name>]
+    Example: sbatch slurm_submit.sh qc_rnaseq -A my_project 
     ```
 
 
 ### Test Data
 
-To verify the workflow, you can use the provided test data in the `data/test_data/` directory.
+**Verifying the Workflow**
 
-1. **Run the workflow with the test data**:
-   
+To verify the workflow, you can use the provided test data located in the `data/test_data/` directory.
+
+**1. Configure Test Settings**
+First, configure the test settings in `config/test_config.yaml`. You might need to adjust memory and threads. 
+
+To successfully test the `remove_contaminants` step, you need to add the NT database. If the NT database is not added, you can still test specific steps without this requirement.
+
+Once the configuration is complete, you can run the workflow on the test data to ensure everything is set up correctly.
+
+**2. Run the workflow with the test data:**
 ```bash
 # Activate conda environment
 conda activate trannoscope
