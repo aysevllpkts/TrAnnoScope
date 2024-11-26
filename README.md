@@ -127,24 +127,34 @@ All conda dependencies can be installed via precheck.py before starting the anal
   python precheck.py <STEP> -c config/config.yaml
   ```
 
-  **Supported Steps and Actions**
-	•	qc_rnaseq: No specific actions listed.
-	•	preprocessing_rnaseq: 
-       - FastQ Screen Genomes: Download pre-indexed Bowtie2 genomes and configuration files. 
-	•	preprocessing_pacbio: No specific actions listed. 
-	•	remove_contaminants: 
-       - BUSCO Dataset: Download lineage-specific dataset for transcriptome quality assessment.
-       - Download taxonomic information (taxdump).
-	•	error_correction: No specific actions listed.
-	•	classification: No specific actions listed.
-	•	annotation:
-       - Install the Trinotate suite and related databases
-       - create SQLITE.db file and configure the TRINOTATE_DATA_DIR and EGGNOG_DATA_DIR directories.
-       - install SignalP and TmHMM2. (tar.gz files should be located at resources beforehand)
-	•	quality_assessment: 
-       - BUSCO Dataset: Download lineage-specific dataset for transcriptome quality assessment.
-
-   NOTE: When running precheck.py, all conda environments will be installed.
+- **qc_rnaseq**: 
+  - No specific actions listed.
+  
+- **preprocessing_rnaseq**:
+  - FastQ Screen Genomes: Download pre-indexed Bowtie2 genomes and configuration files.
+  
+- **preprocessing_pacbio**:
+  - No specific actions listed.
+  
+- **remove_contaminants**:
+  - BUSCO Dataset: Download lineage-specific dataset for transcriptome quality assessment.
+  - Download taxonomic information (taxdump).
+  
+- **error_correction**:
+  - No specific actions listed.
+  
+- **classification**:
+  - No specific actions listed.
+  
+- **annotation**:
+  - Install the Trinotate suite and related databases.
+  - Create SQLITE.db file and configure the TRINOTATE_DATA_DIR and EGGNOG_DATA_DIR directories.
+  - Install SignalP and TmHMM2. (tar.gz files should be located at resources beforehand).
+  
+- **quality_assessment**:
+  - BUSCO Dataset: Download lineage-specific dataset for transcriptome quality assessment.
+  
+NOTE: When running precheck.py, all conda environments will be installed.
 
 
 **Additional Configuration for Specific Steps**
