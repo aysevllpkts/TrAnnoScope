@@ -271,6 +271,7 @@ Configure settings in config/slurm_config.yaml.
 To verify the workflow, you can use the provided test data located in the `data/test_data/` directory.
 
 **1. Configure Test Settings**
+
 First, configure the test settings in `config/test_config.yaml`. You might need to adjust memory and threads. 
 
 To successfully test the `remove_contaminants` step, you need to add the NT database. If the NT database is not added, you can still test specific steps without this requirement.
@@ -278,6 +279,7 @@ To successfully test the `remove_contaminants` step, you need to add the NT data
 Once the configuration is complete, you can run the workflow on the test data to ensure everything is set up correctly.
 
 **2. Run the workflow with the test data:**
+
 ```bash
 # Activate conda environment
 conda activate trannoscope
