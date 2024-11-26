@@ -121,7 +121,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
   python precheck.py all -c config/config.yaml 
   ```
 
-  ### Step-specific Installation**
+  ### Step-specific Installation
   You can specify individual steps if you only need to install tools related to a specific part of the pipeline. Replace <STEP> with the desired step name.
   ```bash
   python precheck.py <STEP> -c config/config.yaml
@@ -157,7 +157,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
 NOTE: When running precheck.py, all conda environments will be installed.
 
 
-**Additional Configuration for Specific Steps**
+### Additional Configuration for Specific Steps
 
 **For preprocessing_rnaseq step:** 
 
@@ -168,13 +168,13 @@ python precheck.py preprocessing_rnaseq -c config/config.yaml
 ```
 
 Additionally, you can download the SILVA LSU, SSU, and mitochondrial (MT) sequences for your organism of interest.
-• SILVA Database:
+- SILVA Database:
 Download the LSU and SSU reference files from [SILVA Database Exports](https://www.arb-silva.de/no_cache/download/archive/current/Exports)
  - LSURef: **SILVA_138.1_LSURef_tax_silva.fasta.gz**
  - SSURef: **SILVA_138.1_SSURef_tax_silva.fasta.gz**
  These are the versions used in the analysis.
 
-• For the MT database, check your organism’s mitochondrial genome on [NCBI](https://www.ncbi.nlm.nih.gov/)
+- For the MT database, check your organism’s mitochondrial genome on [NCBI](https://www.ncbi.nlm.nih.gov/)
 
 To create Bowtie2 indexes for these databases, use:
 ```bash
