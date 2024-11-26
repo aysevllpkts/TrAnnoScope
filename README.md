@@ -244,7 +244,7 @@ Configure settings in config/config.yaml.
     ```
 **Running on SLURM cluster**
 
-Configure settings in config/slurm_config.yaml.
+To submit a job to the SLURM cluster, configure settings in the config/slurm_config.yaml file.
 
     ```bash
     Arguments:
@@ -263,7 +263,15 @@ Configure settings in config/slurm_config.yaml.
     Example: sbatch slurm_submit.sh qc_rnaseq -A my_project 
     ```
 
+**SLURM Job Configuration**
 
+In the slurm_submit.sh script, you need to specify your SLURM account and email for job notifications. Here’s an example:
+    
+  ```bash
+  #SBATCH --account my_project
+  #SBATCH --mail-user=yourname@domain.com
+  ```
+    
 ### Test Data
 
 **Verifying the Workflow**
