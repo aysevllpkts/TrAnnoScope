@@ -197,12 +197,12 @@ This step will prompt you to install Trinotate_v4.2, download the TRINOTATE_DATA
 
 To use SignalP and TmHMM2, you first need to request the necessary files:
 -  Request SignalP 6.0h-fast from:
-  -  [SignalP 6.0h-fast Request](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast)
+    -  [SignalP 6.0h-fast Request](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast)
   
   Store the file in: resources/signalp6
 
 -  Request TmHMM2 from:
-  - [TMHMM 2.0c Request](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=tmhmm&version=2.0c&packageversion=2.0c&platform=Linux)
+    - [TMHMM 2.0c Request](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=tmhmm&version=2.0c&packageversion=2.0c&platform=Linux)
   
   Store the file in: resources/tmhmm2
 
