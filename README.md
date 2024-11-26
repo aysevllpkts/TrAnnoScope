@@ -173,7 +173,7 @@ Download the LSU and SSU reference files from [SILVA Database Exports](https://w
   -  LSURef: **SILVA_138.1_LSURef_tax_silva.fasta.gz**
   -  SSURef: **SILVA_138.1_SSURef_tax_silva.fasta.gz**
 
-These are the versions used in the analysis.
+  These are the versions used in the analysis.
 
 - For the MT database, check your organism’s mitochondrial genome on [NCBI](https://www.ncbi.nlm.nih.gov/)
 
@@ -196,14 +196,14 @@ python precheck.py remove_contaminants -c config/config.yaml
 This step will prompt you to install Trinotate_v4.2, download the TRINOTATE_DATA_DIR databases, and configure SignalP and TmHMM2.
 
 To use SignalP and TmHMM2, you first need to request the necessary files:
-• Request SignalP 6.0h-fast from:
-  - https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast
-  - [SignalP 6.0h-fast Request](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast)
+-  Request SignalP 6.0h-fast from:
+  -  [SignalP 6.0h-fast Request](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=signalp&version=6.0&packageversion=6.0h&platform=fast)
+  
   Store the file in: resources/signalp6
 
-• Request TmHMM2 from:
-  - https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=tmhmm&version=2.0c&packageversion=2.0c&platform=Linux
+-  Request TmHMM2 from:
   - [TMHMM 2.0c Request](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=tmhmm&version=2.0c&packageversion=2.0c&platform=Linux)
+  
   Store the file in: resources/tmhmm2
 
 Then run the following command to complete the annotation step:
