@@ -115,13 +115,13 @@ All conda dependencies can be installed via precheck.py before starting the anal
 
   Usage: python precheck.py [STEPS] -c config/config.yaml
   ```
-  **Full Installation**
+  ### Full Installation
   This command will check and install all necessary tools for the entire pipeline.
   ```bash
   python precheck.py all -c config/config.yaml 
   ```
 
-  **Step-specific Installation**
+  ### Step-specific Installation**
   You can specify individual steps if you only need to install tools related to a specific part of the pipeline. Replace <STEP> with the desired step name.
   ```bash
   python precheck.py <STEP> -c config/config.yaml
