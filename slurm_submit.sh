@@ -5,9 +5,9 @@
 #SBATCH -N 1
 #SBATCH -n 2 
 #SBATCH --mem=4G
-#SBATCH --account 
+#SBATCH --account           # Specify the SLURM project to charge the job. If you don't have, remove the line
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=
+#SBATCH --mail-user=        # Email address to send notifications (specify your actual email address)
 
 # Function to display help
 show_help() {
