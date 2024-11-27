@@ -125,7 +125,11 @@ organism: ""                      # Organism of interest, using together with MT
 rRNA_removal: "yes"               # rRNA removal ("yes" or "no") keys using for removal: "rRNA,|, rRNA"
 
 # ================== Configuration for Error Correction by Illumina Reads ==================
-
+error_correction:
+  proceed: "yes" # or "no"
+  threads: 4
+  memory: "8000"   # for large files, bwt needs high memory
+  
 # FMLRC parameters for error correction
 fmlrc_parameters: ""
 
