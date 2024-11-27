@@ -443,13 +443,15 @@ rule filter_taxa:
         "logs/pacbio/remove_contaminants/blobtools_filtered_taxa.{sample}.log"
     conda: 
         "../envs/blobtools2.yaml"
+    params:
+        taxa=json.dumps(config["blobtools_filter"]) 
     threads: 
         1
     resources:
         mem_mb=1000
     shell:
         """
-        python scripts/filter_taxa.py {input.blobtools_table} {output.filtered_ids} &>> {log}
+        python scripts/filter_taxa.py {input.blobtools_table} {output.filtered_ids} '{params.taxa}' &>> {log}
         seqkit grep -f {output.filtered_ids} {input.fasta} > {output.filtered_fasta}
         """
 
