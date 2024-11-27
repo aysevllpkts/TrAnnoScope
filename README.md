@@ -93,7 +93,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
   
   ```bash
   conda env remove -n trannoscope  # Remove existing environment (if any)
-  conda env create -n trannoscope -f TrAnnoScope_detailed.yaml  # contains exact versions of all dependencies.
+  conda env create -n trannoscope -f trannoscope_detailed.yaml  # contains exact versions of all dependencies.
   conda activate trannoscope
   ```
 
