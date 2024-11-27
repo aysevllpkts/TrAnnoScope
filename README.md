@@ -164,6 +164,8 @@ NOTE: When running precheck.py, all conda environments will be installed.
 
 This step will prompt you to download the FastQScreen genome indexes.
 
+You can modify the fastq_screen.conf file located in resources/fastqscreen to specify which databases to use for removing contaminants and unwanted fragments from the short reads; otherwise, it will default to using all the databases.
+
 ```bash
 python precheck.py preprocessing_rnaseq -c config/config.yaml
 ```
