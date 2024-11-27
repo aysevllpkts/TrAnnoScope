@@ -310,7 +310,7 @@ Once the configuration is complete, you can run the workflow on the test data to
 
 **2. Run the workflow with the test data:**
 
-**Active environment and prepare necessary files**
+**Activate environment and prepare necessary files**
 ```bash
 # Activate conda environment
 conda activate trannoscope
@@ -329,6 +329,39 @@ sbatch slurm_submit.sh all -c config/test_config.yaml [-A]
 ```
 
 **Run specific steps**
+
+### Data Paths and Configuration for TrAnnoScope Pipeline
+
+To run the TrAnnoScope pipeline, users need to define specific directories and files for various processing steps in the `config.yaml` file. Below is a description of each data path and the corresponding step:
+
+**Error Correction Step**
+- **clean_short_reads**: Directory containing clean short reads (e.g., `<sample>_<fr>.*.fq.gz`).
+- **clean_long_reads**: Directory containing clean long reads (e.g., `<sample>.*.fasta`).
+
+> **Note**: Users should define both `clean_short_reads` and `clean_long_reads` for the error correction step.
+
+**Remove Contamination**
+- **preprocessed_long_reads**: Directory containing preprocessed long reads (e.g., `<sample>.*.fasta`).
+- **clean_short_reads**: Directory containing clean short reads (e.g., `<sample>_<fr>.*.fq.gz`).
+
+> **Note**: For contamination removal, define `preprocessed_long_reads` and `clean_short_reads`.
+
+**Classification**
+- **input_for_classification**: Directory containing input files for classification (e.g., `<sample>.*.fasta`).
+
+> **Note**: Users should define `input_for_classification` for the classification step.
+
+**Annotation**
+- **input_for_annotation.nucl**: Path to the nucleotide file for annotation (e.g., `transcriptome.fasta`).
+- **input_for_annotation.prot**: Path to the protein file for annotation (e.g., `transcriptome_protein.fasta`).
+
+> **Note**: Users should define `input_for_annotation` paths (both nucleotide and protein files) for the annotation step.
+
+**Quality Assessment**
+- **input_for_quality.nucl**: Path to the nucleotide file for quality assessment (e.g., `transcriptome.fasta`).
+- **input_for_quality.prot**: Path to the protein file for quality assessment (e.g., `transcriptome_protein.fasta`).
+
+> **Note**: Users should define `input_for_quality` paths (both nucleotide and protein files) for quality assessment.
 
 ```bash
 # If you want to run the TrAnnoScope on a local computer for all steps
