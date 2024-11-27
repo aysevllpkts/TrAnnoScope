@@ -1,53 +1,34 @@
 import sys
+import json
 import pandas as pd
 from functools import reduce
-import yaml
 
-
-config_file = "/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/FLTransAnnot/configs/config_args.yaml"
-
-def filter_identifiers(data, output_file, config_file):
-    """Filter identifiers based on filter parameters and save to a text file.
+def filter_identifiers(data, output_file, taxa_filter):
+    """Filter identifiers based on taxa and save to a text file.
 
     Args:
-        data (dict): Dictionary containing data.
+        data (str): Path to the input data file (BlobTools table).
         output_file (str): Path to the output text file.
-        filter_parameters (str): Stringified dictionary representing filter parameters.
+        taxa_filter (dict): Dictionary containing filter parameters for taxa removal.
 
     Returns:
         str: Message indicating the status of the operation.
     """
-
-    #config_file="../config/config.yaml"
-
-    with open(config_file, 'r') as file:
-        config = yaml.safe_load(file)
-
-    print(config["blobtools_filter"])
-
-
     try:
+        # Load the BlobTools table
         data_df = pd.read_csv(data, sep='\t')
 
-        # Parse filter parameters
-        #filter_params = eval(filter_parameters)
-        filter_params = config["blobtools_filter"]
-
-        # Define the order of keys
-        keys_order = ['bestsumorder_superkingdom', 'bestsumorder_kingdom', 'bestsumorder_phylum', 
-                      'bestsumorder_family', 'bestsumorder_class', 'bestsumorder_species']
-
-        # Apply filters based on filter parameters
-        filter_conditions = []
-        for key in keys_order:
-            if key in filter_params:
-                filter_conditions.append(data_df[key].isin(filter_params[key]))
-
-        # Combine filter conditions using AND operation
-        if filter_conditions:
-            filtered_df = data_df[reduce(lambda x, y: x & y, filter_conditions)]
+        # Extract the filter parameters for the 'phylum' or other groups
+        phylum_filter = taxa_filter.get('bestsumorder_phylum', [])
+        
+        # Define the condition for filtering based on the specified phylum
+        if phylum_filter:
+            filter_condition = data_df['bestsumorder_phylum'].isin(phylum_filter)
         else:
-            filtered_df = data_df
+            filter_condition = pd.Series([True] * len(data_df))  # If no filter, keep all
+
+        # Apply the filter condition
+        filtered_df = data_df[filter_condition]
 
         # Get the identifiers from the filtered DataFrame
         filtered_identifiers = filtered_df['identifiers'].tolist()
@@ -64,7 +45,8 @@ def filter_identifiers(data, output_file, config_file):
 # Arguments
 data = sys.argv[1]
 output_file = sys.argv[2]
+taxa_filter = json.loads(sys.argv[3])  # Deserialize the taxa filter dictionary
 
 # Call the function
-status_msg = filter_identifiers(data, output_file, config_file=config_file)
+status_msg = filter_identifiers(data, output_file, taxa_filter)
 print(status_msg)
