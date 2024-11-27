@@ -87,6 +87,17 @@ All conda dependencies can be installed via precheck.py before starting the anal
   conda activate trannoscope
   ```
 
+    **Troubleshooting**
+    If you still encounter issues while creating or activating the environment using the TrAnnoScope.yaml file, Please follow this step to resolve the problem:
+    ```bash
+    conda env create -n trannoscope_env -f TrAnnoScope_detailed.yaml  # contains exact versions of all dependencies.
+    conda activate trannoscope_env
+    ```
+  
+    **System Compatibility:**
+    Keep in mind that the TrAnnoScope pipeline is developed and optimized for Linux-based systems. If you are running the environment on a non-Linux platform, there could be additional compatibility issues. For the best performance and to ensure seamless execution, we recommend using the pipeline in a Linux-based environment.
+
+  
   4. **Modify config.yaml file**
 
   Edit the config/config.yaml to set file paths and parameters for your analysis before running the installation with precheck.py.
