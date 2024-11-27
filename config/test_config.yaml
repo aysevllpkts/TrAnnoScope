@@ -1,19 +1,19 @@
 # Project name
-PROJECT: "test_data_annotation"
+PROJECT: "test_data_"   # Add name based on the test step
 
 # ============================== Sub-workflow input definition ===============================
 
 # Paths to preprocessed long reads, clean short reads, clean long reads, input for classification and annotation
-preprocessed_long_reads: "/faststorage/project/MolGen/aysevil/TrAnnoScope/data/preprocessed_long_reads"         # Directory containing preprocessed long reads, should be <sample>.*.fasta 
-clean_short_reads: "/faststorage/project/MolGen/aysevil/TrAnnoScope/data/clean_short_reads"                     # Directory containing clean short reads, should be <sample>_<fr>.*.fq.gz  
-clean_long_reads: "/faststorage/project/MolGen/aysevil/TrAnnoScope/data/clean_long_reads"                       # Directory containing clean long reads, should be <sample>.*.fasta        
-input_for_classification: "/faststorage/project/MolGen/aysevil/TrAnnoScope/data/input_for_classification"       # Directory containing input files for classification, should be <sample>.*.fasta 
+preprocessed_long_reads: "/data/preprocessed_long_reads"         # Directory containing preprocessed long reads, should be <sample>.*.fasta 
+clean_short_reads: "/data/clean_short_reads"                     # Directory containing clean short reads, should be <sample>_<fr>.*.fq.gz  
+clean_long_reads: "/data/clean_long_reads"                       # Directory containing clean long reads, should be <sample>.*.fasta        
+input_for_classification: "/data/input_for_classification"       # Directory containing input files for classification, should be <sample>.*.fasta 
 input_for_annotation:
-  nucl: "/faststorage/project/MolGen/aysevil/TrAnnoScope/data/input_for_annotation/transcriptome.fasta"         # Path to nucleotide file for annotation 
-  prot: "/faststorage/project/MolGen/aysevil/TrAnnoScope/data/input_for_annotation/transcriptome_protein.fasta" # Path to protein file for annotation    
+  nucl: "/data/input_for_annotation/transcriptome.fasta"         # Path to nucleotide file for annotation 
+  prot: "/data/input_for_annotation/transcriptome_protein.fasta" # Path to protein file for annotation    
 input_for_quality: 
-  nucl: "/faststorage/project/MolGen/aysevil/TrAnnoScope/data/input_for_annotation/transcriptome.fasta"         # Path to nucleotide file for quality assessment 
-  prot: "/faststorage/project/MolGen/aysevil/TrAnnoScope/data/input_for_annotation/transcriptome_protein.fasta" # Path to protein file for quality assessment    
+  nucl: "/data/input_for_annotation/transcriptome.fasta"         # Path to nucleotide file for quality assessment 
+  prot: "/data/input_for_annotation/transcriptome_protein.fasta" # Path to protein file for quality assessment    
 
 # ================== Shared parameters for some or all of the sub-workflows ==================
  
@@ -103,7 +103,7 @@ blastn:
   threads: 4        # Cores
   memory: "4000"    # Memory in MB
   outfmt6: "6 qseqid staxids bitscore std qcovs qcovhsp stitle" # Output format
-  database: "/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/data/annotation_databases/nt/nt/nt" # Path to NT database
+  database: "" # Path to NT database
   params: "-evalue 1e-25  -max_target_seqs 1 -max_hsps 1" # BLAST parameters for contamination check
 
 # BlobTools parameters for contamination assessment and removal
@@ -170,8 +170,8 @@ trinotate:
   split_size: 200                               # Number of sequences per split file
   outfmt: "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle" # Output format of homology search file, you need stitle for SPECIES PLOT
   e-value: "1e-5" # e-value threshold for homology search 
-  nr_path: "/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/data/annotation_databases/diamond/nr.dmnd" # path for dimaond index of NR database
-  nt_path: "/home/aysevil/MolGen/faststorage/aysevil/greenland_shark/data/annotation_databases/nt/nt/nt" # path for NT index files 
+  nr_path: "" # path for dimaond index of NR database
+  nt_path: "" # path for NT index files 
 
 # Possible databases for annotation
 database_run:
