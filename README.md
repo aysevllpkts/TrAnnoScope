@@ -310,18 +310,32 @@ Once the configuration is complete, you can run the workflow on the test data to
 
 **2. Run the workflow with the test data:**
 
+**Active environment and prepare necessary files**
 ```bash
 # Activate conda environment
 conda activate trannoscope
 
 # Prepare the necessary files
 python precheck.py all -c config/test_config.yaml
+```
 
-# If you want to run the TrAnnoScope on a local computer
+**Run all steps**
+```bash
+# If you want to run the TrAnnoScope on a local computer for all steps
 python run_TrAnnoScope.py all -c config/test_config.yaml
 
-# If you want to run TrAnnoScope slurm cluster 
+# If you want to run TrAnnoScope slurm cluster for all steps
 sbatch slurm_submit.sh all -c config/test_config.yaml [-A]
+```
+
+**Run specific steps**
+
+```bash
+# If you want to run the TrAnnoScope on a local computer for all steps
+python run_TrAnnoScope.py <STEP> -c config/test_config.yaml
+
+# If you want to run TrAnnoScope slurm cluster for all steps
+sbatch slurm_submit.sh <STEP> -c config/test_config.yaml [-A]
 ```
 
 ## Citation
