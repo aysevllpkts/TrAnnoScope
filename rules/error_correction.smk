@@ -126,7 +126,7 @@ if config["error_correction"]["proceed"] == "yes":
     rule fmlrc:
         input:
             bwt = OUTDIR + "/pacbio/error_correction/{sample}_comp_msbwt.npy",
-            long_reads = ISOSEQ_DIR + "/{sample}" + LR_file_suffix
+            long_reads = ISOSEQ_DIR + "/{sample}." + LR_file_suffix
         output:
             OUTDIR + "/pacbio/error_correction/{sample}.clean.corrected.fasta"
         log:
