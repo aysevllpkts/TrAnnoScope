@@ -152,6 +152,11 @@ evigene:
 
 # ================== Configuration for Annotation ==================
 
+# If you are going to use your own protein.fasta file. It should have TransDecoder header format! 
+# Below conditional will modify header from Evigene format to TransDecoder format. 
+# If you have different formatting for the header, Say NO below and you should change it correct format before running the annotation step.
+modify_protein_header: "yes" # or no
+
 # Register file path for Signalp6 and Tmhmmv2
 # you can download it from https://services.healthtech.dtu.dk/
 signalp6_register: "resources/signalp6/signalp-6.0h.fast.tar.gz"  # If you followed instructions in the precheck.py, keep this path
