@@ -63,6 +63,9 @@ indexes = ['{0:03d}'.format(x) for x in range(1, chunks+1)]
 
 # For optional database runs:
 conditional_outputs = list()
+nr_plot = list()
+eggnog_plots = list()
+
 if "swissprot_blastx" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/swissprot_blastx/swissprot_blastx_trinotate_load.done")
 if "swissprot_blastp" in config["database_run"]:
@@ -75,6 +78,9 @@ if "tmhmmv2" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/tmhmm2/tmhmm2_trinotate_load.done")
 if "eggnog_mapper" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/eggnog_mapper/eggnog_mapper_load.done")
+    eggnog_plots.append(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_KEGG_dist." + config["format"])
+    eggnog_plots.append(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_KEGG_slim_dist." + config["format"])
+    eggnog_plots.append(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_COG_dist." + config["format"])
 if "infernal" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/infernal/infernal_load.done")
 if "nr_blastx" in config["database_run"]:
@@ -83,11 +89,12 @@ if "nr_blastp" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/nr_blastp/nr_blastp_load.done")
 if "nt" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/nt_blastn/nt_trinotate_load.done")
+    nr_plot.append(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_top10_species_dist_NR_blastx." + config["format"])
 
 
 #print(conditional_outputs)
 
-localrules: all, copy_transcriptome, modify_prot_header, create_gene_trans_map, copy_trinotate_sqlite, split_pep, split_nucl, get_summary, species_plot
+localrules: all, copy_transcriptome, modify_prot_header, create_gene_trans_map, copy_trinotate_sqlite, split_pep, split_nucl, get_summary
 
 rule all:
     input:
@@ -103,10 +110,9 @@ rule all:
         OUTDIR + "/annotation/" + config["PROJECT"] + "_trinotate_report.summary",
         OUTDIR + "/annotation/" + config["PROJECT"] + "_trinotate_report_trans.goslims",
         expand(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_{category}_GOSlims.{ext}", category = ["ALL", "Cellular_Component", "Molecular_Function", "Biological_Process"], ext = config["format"]),
-        expand(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_KEGG_{name}dist." + config["format"], name = ["", "slim_"]),
-        OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_COG_dist." + config["format"],
-        OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_top10_species_dist_NR_blastx." + config["format"]
-
+        eggnog_plots,
+        nr_plot
+ 
         
 checkpoint copy_transcriptome:
     input:
@@ -942,9 +948,7 @@ rule get_summary:
     output:
         summary_table = OUTDIR + "/annotation/" + config["PROJECT"] + "_trinotate_report.summary",
         go_slims = OUTDIR + "/annotation/" + config["PROJECT"] + "_trinotate_report_trans.goslims",
-        GO_plots = expand(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_{category}_GOSlims.{ext}", category = ["ALL", "Cellular_Component", "Molecular_Function", "Biological_Process"], ext = config["format"]),
-        KEGG_plots = expand(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_KEGG_{name}dist." + config["format"], name = ["", "slim_"]),
-        COG_plot = OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_COG_dist." + config["format"]
+        GO_plots = expand(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_{category}_GOSlims.{ext}", category = ["ALL", "Cellular_Component", "Molecular_Function", "Biological_Process"], ext = config["format"])
     log:
         "logs/trinotate_report.log"
     conda:
@@ -952,8 +956,6 @@ rule get_summary:
     params:
         path = config["trinotate"]["path"],
         prefix = config["PROJECT"], 
-        kegg_file = "resources/kegg_df.csv",
-        cog_file = "resources/cog_fun.txt",
         fmt = config["format"], # plot file extention
         outdir = OUTDIR + "/annotation"
     threads:    1
@@ -968,12 +970,34 @@ rule get_summary:
         {params.path}/util/gene_ontology/Trinotate_GO_to_SLIM.pl  {params.outdir}/{params.prefix}_trans.goterms > {output.go_slims} 2>> {log}
         # Create GO plots
         Rscript scripts/GOSlim_plots.R {output.go_slims} {params.prefix} {params.fmt} {params.outdir}/plots/ 2&>> {log}
-        # KEGG
-        Rscript scripts/kegg_plot.R {input.annotation} {params.prefix} {params.kegg_file} {params.fmt} {params.outdir}/plots/ 2&>> {log}
-        # COG
-        Rscript scripts/cog_plot.R {input.annotation} {params.cog_file} {params.prefix}  {params.fmt} {params.outdir}/plots/ 2&>> {log}
         """    
 
+if "eggnog_mapper" in config["database_run"]:
+    rule get_eggnog_plots:
+        input:
+            annotation = OUTDIR + "/annotation/" + config["PROJECT"] + "_trinotate_report.xls"
+        output:
+            KEGG_plots = expand(OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_KEGG_{name}dist." + config["format"], name = ["", "slim_"]),
+            COG_plot = OUTDIR + "/annotation/plots/" + config["PROJECT"] + "_COG_dist." + config["format"]
+        log:
+            "logs/trinotate_report.log"
+        conda:
+            "../envs/trinotate_v4.0.2.yaml"
+        params:
+            prefix = config["PROJECT"], 
+            kegg_file = "resources/kegg_df.csv",
+            cog_file = "resources/cog_fun.txt",
+            fmt = config["format"], # plot file extention
+            outdir = OUTDIR + "/annotation"
+        threads:    1
+        resources:  mem_mb = 2000
+        shell:
+            """
+            # KEGG
+            Rscript scripts/kegg_plot.R {input.annotation} {params.prefix} {params.kegg_file} {params.fmt} {params.outdir}/plots/ 2&>> {log}
+            # COG
+            Rscript scripts/cog_plot.R {input.annotation} {params.cog_file} {params.prefix}  {params.fmt} {params.outdir}/plots/ 2&>> {log}
+            """ 
 
 if "nr_blastx" in config["database_run"]:
     rule species_plot:
