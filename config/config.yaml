@@ -85,7 +85,7 @@ flnc2cluster:
 busco:
   threads: 8                                # Number of cores
   memory:  "4000"                           # Memory in MB
-  lineage: "vertebrata_odb10"               # Example: vertebrata_odb10 BUSCO lineage dataset, if you want auto-lineage, leave blank as "".
+  lineage: ""                               # Example: vertebrata_odb10 BUSCO lineage dataset, if you want auto-lineage, leave blank as "".
   data_path: "resources/busco_downloads"    # if you used precheck.py and download busco dataset, you do not have to change this.
 
 # Bowtie2 parameters for read alignment
