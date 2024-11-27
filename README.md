@@ -154,6 +154,7 @@ All conda dependencies can be installed via precheck.py before starting the anal
 - **quality_assessment**:
   - BUSCO Dataset: Download lineage-specific dataset for transcriptome quality assessment.
   
+NOTE: Installing FastQ Screen databases and setting up the TRINOTATE_DATA_DIR can be time-consuming due to the large size of databases.
 NOTE: When running precheck.py, all conda environments will be installed.
 
 
