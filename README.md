@@ -330,7 +330,7 @@ sbatch slurm_submit.sh all -c config/test_config.yaml [-A]
 
 **Run specific steps**
 
-### Data Paths and Configuration for TrAnnoScope Pipeline
+#### Data Paths and Configuration for TrAnnoScope Pipeline
 
 To run the TrAnnoScope pipeline, users need to define specific directories and files for various processing steps in the `config.yaml` file. Below is a description of each data path and the corresponding step:
 
