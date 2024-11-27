@@ -132,20 +132,36 @@ checkpoint copy_transcriptome:
         echo 'transcriptome_nt and transcriptome_prot were copied to transcriptome folder' &> {log}
         """
 
-checkpoint modify_prot_header:
-    """
-    Trinotate only except transdecoder like header format. 
-    Modify the evigene format to transdecoder-like format.
-    """
-    input:  
-        OUTDIR + "/transcriptome/transcriptome_prot.fasta"
-    output:
-        OUTDIR + "/transcriptome/transcriptome_prot_modified.fasta"
-    log:
-        "logs/transcriptome/modify_prot_header.log"
-    threads: 1
-    resources:  mem_mb=1000 
-    shell: "python scripts/reformat_header.py {input} {output} &> {log}" 
+if config["modify_protein_header"] == "yes":
+    rule modify_prot_header:
+        """
+        Trinotate only except transdecoder like header format. 
+        Modify the evigene format to transdecoder-like format.
+        """
+        input:  
+            OUTDIR + "/transcriptome/transcriptome_prot.fasta"
+        output:
+            OUTDIR + "/transcriptome/transcriptome_prot_modified.fasta"
+        log:
+            "logs/transcriptome/modify_prot_header.log"
+        threads: 1
+        resources:  mem_mb=1000 
+        shell: "python scripts/reformat_header.py {input} {output} &> {log}" 
+
+else:
+    rule copy_prot_file:
+        """
+        Copy file to match name!
+        """
+        input:  
+            OUTDIR + "/transcriptome/transcriptome_prot.fasta"
+        output:
+            OUTDIR + "/transcriptome/transcriptome_prot_modified.fasta"
+        log:
+            "logs/transcriptome/modify_prot_header.log"
+        threads: 1
+        resources:  mem_mb=1000 
+        shell: "cp {input} {output}" 
 
 checkpoint create_gene_trans_map:
     input:
