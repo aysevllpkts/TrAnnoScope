@@ -79,7 +79,7 @@ if "infernal" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/infernal/infernal_load.done")
 if "nr_blastx" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/nr_blastx/nr_blastx_load.done")
-if "nr_blastx" in config["database_run"]:
+if "nr_blastp" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/nr_blastp/nr_blastp_load.done")
 if "nt" in config["database_run"]:
     conditional_outputs.append(OUTDIR + "/annotation/nt_blastn/nt_trinotate_load.done")
