@@ -5,15 +5,15 @@
 #SBATCH -N 1
 #SBATCH -n 2 
 #SBATCH --mem=4G
-#SBATCH --account           # Specify the SLURM project to charge the job. If you don't have, remove the line
+#SBATCH --account MolGen         # Specify the SLURM project to charge the job. If you don't have, remove the line
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=        # Email address to send notifications (specify your actual email address)
+#SBATCH --mail-user=aysevilpektas@mbg.au.dk        # Email address to send notifications (specify your actual email address)
 
 # Function to display help
 show_help() {
-    echo "Usage: $0 STEP [-A ACCOUNT_NAME]"
+    echo "Usage: $0 STEP [-A ACCOUNT_NAME] [-c CONFIG_FILE]"
     echo
-    echo "Run the TrAnnoScope pipeline with the specified step and optionally with the account."
+    echo "Run the TrAnnoScope pipeline with the specified step and optionally with the account and config file."
     echo
     echo "Arguments:"
     echo "  STEP       The step to execute. Available steps are:"
@@ -29,10 +29,11 @@ show_help() {
     echo
     echo "Options:"
     echo "  -A ACCOUNT_NAME  Specify the SLURM account name for your project (default: False)"
-    echo "  -h, --help  Show this help message and exit"
+    echo "  -c CONFIG_FILE   Specify the config file to use (default: config/config.yaml)"
+    echo "  -h, --help       Show this help message and exit"
     echo
     echo "Example:"
-    echo "  $0 qc_rnaseq -A <account_name>"
+    echo "  $0 qc_rnaseq -A <account_name> -c config/my_config.yaml"
 }
 
 declare -A steps
@@ -47,7 +48,6 @@ steps["quality_assessment"]="rules/quality_assessment.smk|log_quality_assessment
 
 # Define the order of steps
 step_order=("qc_rnaseq" "preprocessing_rnaseq" "preprocessing_pacbio" "remove_contaminants" "error_correction" "classification" "annotation" "quality_assessment")
-
 
 # Check if help is requested
 if [[ $1 == "-h" || $1 == "--help" ]]; then
@@ -64,13 +64,14 @@ fi
 
 STEP=$1
 USE_ACCOUNT=false  # Default is not to use the account
+CONFIG_FILE="config/config.yaml"  # Default config file
 
-
-# Shift the arguments to process the optional -A flag
+# Shift the arguments to process the optional flags
 shift
-while getopts "A" opt; do
+while getopts "Ac:" opt; do
     case $opt in
         A) USE_ACCOUNT=true ;;
+        c) CONFIG_FILE=$OPTARG ;;
         *) show_help; exit 1 ;;
     esac
 done
@@ -80,12 +81,12 @@ run_step() {
     IFS='|' read -r -a step_details <<< "${steps[$step]}"
     echo "${step_details[2]}"
     if [ "$USE_ACCOUNT" = true ]; then
-        snakemake_cmd="snakemake -s ${step_details[0]} --configfile config/config.yaml --use-conda -j 500 \
+        snakemake_cmd="snakemake -s ${step_details[0]} --configfile ${CONFIG_FILE} --use-conda -j 500 \
             --cluster 'sbatch -A {cluster.account_name} --time={cluster.time} -p {cluster.partition} --mem={resources.mem_mb} \
             -c {threads} -o {cluster.output} -e {cluster.error}' --cluster-config config/slurm_config.yaml \
             --latency-wait=60 --reason --show-failed-logs --keep-going --printshellcmds --rerun-incomplete --nolock" 
     else
-        snakemake_cmd="snakemake -s ${step_details[0]} --configfile config/config.yaml --use-conda -j 100 \
+        snakemake_cmd="snakemake -s ${step_details[0]} --configfile ${CONFIG_FILE} --use-conda -j 100 \
             --cluster 'sbatch --time={cluster.time} -p {cluster.partition} --mem={resources.mem_mb} \
             -c {threads} -o {cluster.output} -e {cluster.error}' --cluster-config config/slurm_config.yaml \
             --latency-wait=60 --reason --show-failed-logs --keep-going --printshellcmds --rerun-incomplete --nolock"
