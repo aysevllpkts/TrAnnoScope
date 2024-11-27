@@ -259,9 +259,10 @@ To submit a job to the SLURM cluster, configure settings in the config/slurm_con
                  quality_assessment    - Quality assessment of the transcriptome
                  all                   - Run all the steps
 
-    Usage: sbatch slurm_submit.sh STEP [-A <slurm account name>]
-    Example: sbatch slurm_submit.sh qc_rnaseq -A my_project 
+    Usage: sbatch slurm_submit.sh STEP [-A]
+    Example: sbatch slurm_submit.sh qc_rnaseq -A 
     ```
+NOTE: The -A parameter is a boolean (true/false). If used, you must specify a project or account name.
 
 **SLURM Job Configuration**
 
@@ -271,7 +272,9 @@ In the slurm_submit.sh script, you need to specify your SLURM account and email 
   #SBATCH --account my_project
   #SBATCH --mail-user=yourname@domain.com
   ```
-    
+
+In the slurm_config.yaml file, ensure that an account_name field is added to specify the project name.
+
 ### Test Data
 
 **Verifying the Workflow**
